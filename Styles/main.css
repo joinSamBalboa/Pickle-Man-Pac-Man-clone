@@ -1,0 +1,54 @@
+* {
+  box-sizing: border-box;
+}
+
+body{
+  height: 100vh;
+  margin: 0;
+}
+
+.grid-wrapper{
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.grid{
+  display: flex;
+  flex-wrap: wrap;
+  height: 600px;
+  width: 600px;
+  box-shadow: 0 0 50px 0 rgba(231, 46, 46, 0.577);
+  background-image: url('../Images/PACMAN\ 2.jpg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+.grid div{
+  width: 7.69%;
+  height: 7.69%;
+  border: 1px solid rgba(0,0,0,0.2);
+
+}
+.horizontal-border{
+  background-image: url('../Images/border1.jpg');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: rgb(80, 76, 76); 
+}
+.vertical-border{
+  background-image: url('../Images/border2.jpg');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: rgb(80, 76, 76); 
+}
+
+.pickle{
+  background-image: url('https://c.tenor.com/VBDwNk6hm_EAAAAM/pickle-laughing.gif');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
