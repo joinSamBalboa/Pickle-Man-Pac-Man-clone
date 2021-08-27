@@ -12,7 +12,7 @@ function init(){
   let userCurrentPosition = userStartingPosition
 
   const redClassName = 'red'
-  const redStartingPosition = 83
+  const redStartingPosition = 19
   let redCurrentPosition = redStartingPosition
 
   const blueClassName = 'blue'
@@ -20,7 +20,7 @@ function init(){
   let blueCurrentPosition = blueStartingPosition
 
   const yellowClassName = 'yellow'
-  const yellowStartingPosition = 85
+  const yellowStartingPosition = 83
   let yellowCurrentPosition = yellowStartingPosition
 
   
@@ -149,9 +149,20 @@ function init(){
     const verticalTop = cells[userCurrentPosition - width].classList.contains('vertical-border')
     const verticalBottom = cells[userCurrentPosition + width].classList.contains('vertical-border')
     
+    const meetRedRight = cells[userCurrentPosition + 1].classList.contains('red')
+    const meetRedLeft = cells[userCurrentPosition - 1].classList.contains('red')
+    const meetRedTop = cells[userCurrentPosition - width].classList.contains('red')
+    const meetRedBottom = cells[userCurrentPosition + width].classList.contains('red')
 
     if (key === right && userCurrentPosition % width !== width - 1 && !horizontalRight && !verticalRight){
-      userCurrentPosition++
+      if (meetRedRight){
+        // userCurrentPosition++ 
+        removePickle(userCurrentPosition)
+        userCurrentPosition = userStartingPosition
+        addPickle(userStartingPosition)
+      } else {
+        userCurrentPosition++
+      }
     } else if (key === left && userCurrentPosition % width !== 0 && !horizontalLeft && !verticalLeft){
       userCurrentPosition--
     } else if (key === up && userCurrentPosition >= width && !horizontalTop && !verticalTop){
@@ -187,32 +198,32 @@ function init(){
   // remove yellow rat
 
   // Random Movement
-  function ratRandomMovement(event){
-    // Remove existing pickle
+  function redRandomMovement(){
+    
     removeRedRat(redCurrentPosition)
   
     const movementOptions = [1, -1, width, -width]
     const randomMovement = movementOptions[Math.floor(Math.random() * movementOptions.length)]
   
-    const horizontalRight = cells[userCurrentPosition + 1].classList.contains('horizontal-border')
-    const horizontalLeft = cells[userCurrentPosition - 1].classList.contains('horizontal-border')
-    const verticalRight = cells[userCurrentPosition + 1].classList.contains('vertical-border')
-    const verticalLeft = cells[userCurrentPosition - 1].classList.contains('vertical-border')
+    const horizontalRight = cells[redCurrentPosition + 1].classList.contains('horizontal-border')
+    const horizontalLeft = cells[redCurrentPosition - 1].classList.contains('horizontal-border')
+    const verticalRight = cells[redCurrentPosition + 1].classList.contains('vertical-border')
+    const verticalLeft = cells[redCurrentPosition - 1].classList.contains('vertical-border')
   
-    const horizontalTop = cells[userCurrentPosition - width].classList.contains('horizontal-border')
-    const horizontalBottom = cells[userCurrentPosition + width].classList.contains('horizontal-border')
-    const verticalTop = cells[userCurrentPosition - width].classList.contains('vertical-border')
-    const verticalBottom = cells[userCurrentPosition + width].classList.contains('vertical-border')
+    const horizontalTop = cells[redCurrentPosition - width].classList.contains('horizontal-border')
+    const horizontalBottom = cells[redCurrentPosition + width].classList.contains('horizontal-border')
+    const verticalTop = cells[redCurrentPosition - width].classList.contains('vertical-border')
+    const verticalBottom = cells[redCurrentPosition + width].classList.contains('vertical-border')
       
   
-    if (randomMovement === 1 && userCurrentPosition % width !== width - 1 && !horizontalRight && !verticalRight){
-      userCurrentPosition++
-    } else if (randomMovement === -1 && userCurrentPosition % width !== 0 && !horizontalLeft && !verticalLeft){
-      userCurrentPosition--
-    } else if (randomMovement === -width && userCurrentPosition >= width && !horizontalTop && !verticalTop){
-      userCurrentPosition -= width
-    } else if (randomMovement === width && userCurrentPosition + width <= cellCount - 1 && !horizontalBottom && !verticalBottom){
-      userCurrentPosition += width
+    if (randomMovement === 1 && redCurrentPosition % width !== width - 1 && !horizontalRight && !verticalRight){
+      redCurrentPosition++
+    } else if (randomMovement === -1 && redCurrentPosition % width !== 0 && !horizontalLeft && !verticalLeft){
+      redCurrentPosition--
+    } else if (randomMovement === -width && redCurrentPosition >= width && !horizontalTop && !verticalTop){
+      redCurrentPosition -= width
+    } else if (randomMovement === width && redCurrentPosition + width <= cellCount - 1 && !horizontalBottom && !verticalBottom){
+      redCurrentPosition += width
     } else {
       console.log('INVALID KEY')
     }
@@ -221,6 +232,14 @@ function init(){
       
   }
 
+  // Move red rat on interval
+  function moveRedRat (){
+    const redInterval = setInterval(() => {
+      redRandomMovement()
+    }, 350)
+  }
+  
+  
   // Add megaseeds
   // Remove megaseeds
   // Add szechuan sauce
@@ -243,6 +262,7 @@ function init(){
   createHorizontalPath()
   createVerticalPath()
   addRedRat(redCurrentPosition)
+  
   
 }
 
