@@ -1,12 +1,27 @@
 * {
   box-sizing: border-box;
 }
+@font-face {
+  font-family: 'get_schwiftyregular';
+  src: url('../Fonts/get_schwifty-webfont.woff2') format('woff2'),
+  url('../Fonts/get_schwifty-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
 
 body{
   height: 100vh;
   margin: 0;
+  font-family: 'get_schwiftyregular';
 }
-
+h1{
+  font-size: 100px;
+  color: lightskyblue;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
+  text-shadow: 3px 3px 3px rgb(99, 194, 21);
+  margin: auto;
+}
 .grid-wrapper{
   height: 100vh;
   display: flex;
@@ -47,7 +62,28 @@ body{
 }
 
 .pickle{
-  background-image: url('https://c.tenor.com/VBDwNk6hm_EAAAAM/pickle-laughing.gif');
+  background-image: url('https://toppng.com/uploads/preview/ickle-rick-render-by-pickle-rick-rat-suit-11563018689hlooochj2z.png');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.red {
+  background-image: url('https://i.pinimg.com/originals/a4/d1/eb/a4d1eb6a03bd13a1bd0a2339ff6f92fe.gif');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.blue{
+  background-image: url('https://i.pinimg.com/originals/a4/d1/eb/a4d1eb6a03bd13a1bd0a2339ff6f92fe.gif');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.yellow{
+  background-image: url('https://i.pinimg.com/originals/a4/d1/eb/a4d1eb6a03bd13a1bd0a2339ff6f92fe.gif');
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;

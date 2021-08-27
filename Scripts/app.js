@@ -7,39 +7,39 @@ function init(){
   const cellCount = width * width
   const cells = []
 
-  const UserClassName = 'pickle'
-  const UserStartingPosition = 78
-  let userCurrentPosition = UserStartingPosition
+  const userClassName = 'pickle'
+  const userStartingPosition = 78
+  let userCurrentPosition = userStartingPosition
 
   const redClassName = 'red'
-  const redStartingPosition = 82
+  const redStartingPosition = 83
   let redCurrentPosition = redStartingPosition
 
   const blueClassName = 'blue'
-  const blueStartingPosition = 83
+  const blueStartingPosition = 84
   let blueCurrentPosition = blueStartingPosition
 
   const yellowClassName = 'yellow'
-  const yellowStartingPosition = 84
+  const yellowStartingPosition = 85
   let yellowCurrentPosition = yellowStartingPosition
 
-  const greenClassName = 'green'
-  const greenStartingPosition = 85
-  let greenCurrentPosition = greenStartingPosition
-
+  
 
 
   // Executions
   // Create Grid
-  function createGrid(){
+  function createGrid(startPosition){
     for (let i = 0; i < cellCount; i++){ // Loop for the length of cellCount
       const cell = document.createElement('div') // Create a div
       cell.innerText = i // Add index as innerText
       grid.appendChild(cell) // Append cell to grid
       cells.push(cell)
     }
+
+    addPickle(startPosition)
   }
-  createGrid()
+
+
   // Create Path
   // Create path border
   function createHorizontalPath(){
@@ -116,19 +116,114 @@ function init(){
       }
     }
   }
-  createHorizontalPath()
-  createVerticalPath()
-  // Remove megaseeds
-  // Add szechuan sause
+  
+  
   // Add Pickle
+  function addPickle(cellPosition){
+    cells[cellPosition].classList.add(userClassName)
+  }
+
   // Remove Pickle
-  // Add Red rat
-  // Add blue rat
-  // Add yellow rat
-  // Add green rat
+  function removePickle(cellPosition){
+    cells[cellPosition].classList.remove(userClassName)
+  }
+
   // User Key movement
+  function userKeyMovement(event){
+  // Remove existing pickle
+    removePickle(userCurrentPosition)
+
+    const key = event.keyCode 
+    const right = 39
+    const left = 37
+    const up = 38
+    const down = 40
+
+    const horizontalRight = cells[userCurrentPosition + 1].classList.contains('horizontal-border')
+    const horizontalLeft = cells[userCurrentPosition - 1].classList.contains('horizontal-border')
+    const verticalRight = cells[userCurrentPosition + 1].classList.contains('vertical-border')
+    const verticalLeft = cells[userCurrentPosition - 1].classList.contains('vertical-border')
+
+    const horizontalTop = cells[userCurrentPosition - width].classList.contains('horizontal-border')
+    const horizontalBottom = cells[userCurrentPosition + width].classList.contains('horizontal-border')
+    const verticalTop = cells[userCurrentPosition - width].classList.contains('vertical-border')
+    const verticalBottom = cells[userCurrentPosition + width].classList.contains('vertical-border')
+    
+
+    if (key === right && userCurrentPosition % width !== width - 1 && !horizontalRight && !verticalRight){
+      userCurrentPosition++
+    } else if (key === left && userCurrentPosition % width !== 0 && !horizontalLeft && !verticalLeft){
+      userCurrentPosition--
+    } else if (key === up && userCurrentPosition >= width && !horizontalTop && !verticalTop){
+      userCurrentPosition -= width
+    } else if (key === down && userCurrentPosition + width <= cellCount - 1 && !horizontalBottom && !verticalBottom){
+      userCurrentPosition += width
+    } else {
+      console.log('INVALID KEY')
+    }
+
+    addPickle(userCurrentPosition)
+    
+  }
+
+
+  
+
+
+  
+  // Add Red rat
+  function addRedRat(cellPosition){
+    cells[cellPosition].classList.add(redClassName)
+  }
+  // Remove Red Rat
+  function removeRedRat(cellPosition){
+    cells[cellPosition].classList.remove(redClassName)
+  }
+
+  // Add blue rat
+  // Remove blue rat
+
+  // Add yellow rat
+  // remove yellow rat
+
   // Random Movement
+  function ratRandomMovement(event){
+    // Remove existing pickle
+    removeRedRat(redCurrentPosition)
+  
+    const movementOptions = [1, -1, width, -width]
+    const randomMovement = movementOptions[Math.floor(Math.random() * movementOptions.length)]
+  
+    const horizontalRight = cells[userCurrentPosition + 1].classList.contains('horizontal-border')
+    const horizontalLeft = cells[userCurrentPosition - 1].classList.contains('horizontal-border')
+    const verticalRight = cells[userCurrentPosition + 1].classList.contains('vertical-border')
+    const verticalLeft = cells[userCurrentPosition - 1].classList.contains('vertical-border')
+  
+    const horizontalTop = cells[userCurrentPosition - width].classList.contains('horizontal-border')
+    const horizontalBottom = cells[userCurrentPosition + width].classList.contains('horizontal-border')
+    const verticalTop = cells[userCurrentPosition - width].classList.contains('vertical-border')
+    const verticalBottom = cells[userCurrentPosition + width].classList.contains('vertical-border')
+      
+  
+    if (randomMovement === 1 && userCurrentPosition % width !== width - 1 && !horizontalRight && !verticalRight){
+      userCurrentPosition++
+    } else if (randomMovement === -1 && userCurrentPosition % width !== 0 && !horizontalLeft && !verticalLeft){
+      userCurrentPosition--
+    } else if (randomMovement === -width && userCurrentPosition >= width && !horizontalTop && !verticalTop){
+      userCurrentPosition -= width
+    } else if (randomMovement === width && userCurrentPosition + width <= cellCount - 1 && !horizontalBottom && !verticalBottom){
+      userCurrentPosition += width
+    } else {
+      console.log('INVALID KEY')
+    }
+  
+    addRedRat(redCurrentPosition)
+      
+  }
+
   // Add megaseeds
+  // Remove megaseeds
+  // Add szechuan sauce
   // remove szechuan sauce
 
 
@@ -143,6 +238,12 @@ function init(){
   // Events
 
   document.addEventListener('keydown', userKeyMovement)
+
+  createGrid(userStartingPosition)
+  createHorizontalPath()
+  createVerticalPath()
+  addRedRat(redCurrentPosition)
+  
 }
 
 window.addEventListener('DOMContentLoaded', init)
