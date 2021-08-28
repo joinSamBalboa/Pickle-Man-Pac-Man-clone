@@ -13,8 +13,8 @@ body{
   height: 100vh;
   margin: 0;
   font-family: 'get_schwiftyregular';
+  text-align: center;
 }
-
 h1{
   font-size: 100px;
   color: lightskyblue;
@@ -24,11 +24,36 @@ h1{
   margin: auto;
 }
 
+.capital{
+  font-size:200px;
+  -webkit-text-stroke-width: 3px;
+  -webkit-text-stroke-color: black;
+  text-shadow: 5px 5px 5px rgb(99, 194, 21);
+}
+
+.top{
+  display: flex;
+  justify-content: space-between;
+  margin: 20px auto;
+  width: 500px;
+}
+
+#start{
+  height: 100px;
+  width: 100px;
+  font-family: 'get_schwiftyregular';
+  border-radius: 50%;
+  background-image: url('https://cdna.artstation.com/p/assets/images/images/031/538/850/original/petro-kosariekov-portal-gun-rick-and-morty2-2.gif?1603902186');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
 .grid-wrapper{
-  height: 100vh;
+  height: 60vh;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items:initial;
 }
 
 .grid{
@@ -65,7 +90,7 @@ h1{
 }
 
 .pickle{
-  background-image: url('https://toppng.com/uploads/preview/ickle-rick-render-by-pickle-rick-rat-suit-11563018689hlooochj2z.png');
+  background-image: url('https://www.vhv.rs/dpng/d/135-1355056_pickle-rick-png-pickle-rick-transparent-background-png.png');
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
@@ -90,4 +115,22 @@ h1{
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
+}
+
+.seed{
+  background-image: url('https://static.wikia.nocookie.net/rickandmorty/images/e/e8/Speed_Mega_Seed.png/revision/latest?cb=20160909154201');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 1%;
+  width: 1%;
+}
+
+.sauce{
+  background-image: url('https://img1.picmix.com/output/stamp/normal/5/6/7/8/1898765_af7fc.png');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 1%;
+  width: 1%;
 }

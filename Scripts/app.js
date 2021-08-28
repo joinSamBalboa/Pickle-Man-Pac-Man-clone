@@ -1,11 +1,22 @@
 function init(){
   // Elements
   const grid = document.querySelector('.grid')
+  const start = document.getElementById('start')
+  const scoreSpan = document.getElementById('score')
+  const livesSpan = document.getElementById('lives')
 
   // Variables
   const width = 13
   const cellCount = width * width
   const cells = []
+
+  let lives = 3
+  let score = 0
+  let highScore = 0
+
+  const seedScore = 10
+  const sauceScore = 10
+
 
   const userClassName = 'pickle'
   const userStartingPosition = 78
@@ -23,10 +34,20 @@ function init(){
   const yellowStartingPosition = 83
   let yellowCurrentPosition = yellowStartingPosition
 
+  const seedClassName = 'seed'
+
   
 
 
   // Executions
+
+  // Start game
+  function startGame(){
+  // get rats to start moving
+  // check lives
+
+  }
+
   // Create Grid
   function createGrid(startPosition){
     for (let i = 0; i < cellCount; i++){ // Loop for the length of cellCount
@@ -154,14 +175,25 @@ function init(){
     const meetRedTop = cells[userCurrentPosition - width].classList.contains('red')
     const meetRedBottom = cells[userCurrentPosition + width].classList.contains('red')
 
+    const meetSeedRight = cells[userCurrentPosition + 1].classList.contains('seed')
+    const meetSeedLeft = cells[userCurrentPosition - 1].classList.contains('seed')
+    const meetSeedTop = cells[userCurrentPosition - width].classList.contains('seed')
+    const meetSeedBottom = cells[userCurrentPosition + width].classList.contains('seed')
+
     if (key === right && userCurrentPosition % width !== width - 1 && !horizontalRight && !verticalRight){
       if (meetRedRight){
         // userCurrentPosition++ 
         removePickle(userCurrentPosition)
         userCurrentPosition = userStartingPosition
         addPickle(userStartingPosition)
+      } else if (meetSeedRight){
+        cells[userCurrentPosition + 1].classList.remove(seedClassName)
+        userCurrentPosition++
+        score += seedScore
+        scoreSpan.innerText = Number(scoreSpan.innerText) + score
       } else {
         userCurrentPosition++
+        
       }
     } else if (key === left && userCurrentPosition % width !== 0 && !horizontalLeft && !verticalLeft){
       userCurrentPosition--
@@ -169,9 +201,7 @@ function init(){
       userCurrentPosition -= width
     } else if (key === down && userCurrentPosition + width <= cellCount - 1 && !horizontalBottom && !verticalBottom){
       userCurrentPosition += width
-    } else {
-      console.log('INVALID KEY')
-    }
+    } 
 
     addPickle(userCurrentPosition)
     
@@ -215,7 +245,7 @@ function init(){
     const verticalTop = cells[redCurrentPosition - width].classList.contains('vertical-border')
     const verticalBottom = cells[redCurrentPosition + width].classList.contains('vertical-border')
       
-  
+    // Add arguments to check for if userCurrentPosition is larger or smaller than rat position
     if (randomMovement === 1 && redCurrentPosition % width !== width - 1 && !horizontalRight && !verticalRight){
       redCurrentPosition++
     } else if (randomMovement === -1 && redCurrentPosition % width !== 0 && !horizontalLeft && !verticalLeft){
@@ -224,9 +254,7 @@ function init(){
       redCurrentPosition -= width
     } else if (randomMovement === width && redCurrentPosition + width <= cellCount - 1 && !horizontalBottom && !verticalBottom){
       redCurrentPosition += width
-    } else {
-      console.log('INVALID KEY')
-    }
+    } 
   
     addRedRat(redCurrentPosition)
       
@@ -241,9 +269,18 @@ function init(){
   
   
   // Add megaseeds
-  // Remove megaseeds
+  function addSeed(){
+    for (let i = 0; i < cellCount; i++){
+      if (i >= 79 && i <= 81){
+        cells[i].classList.add(seedClassName) 
+      } 
+    }
+  }
+
   // Add szechuan sauce
-  // remove szechuan sauce
+
+
+
 
 
 
@@ -257,12 +294,13 @@ function init(){
   // Events
 
   document.addEventListener('keydown', userKeyMovement)
+  document.addEventListener('click', startGame)
 
   createGrid(userStartingPosition)
   createHorizontalPath()
   createVerticalPath()
   addRedRat(redCurrentPosition)
-  
+  addSeed()
   
 }
 
