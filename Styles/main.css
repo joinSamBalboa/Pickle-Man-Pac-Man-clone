@@ -34,8 +34,10 @@ h1{
 .top{
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin: 20px auto;
-  width: 500px;
+  width: 550px;
+  font-size: 25px;
 }
 
 #start{
@@ -54,6 +56,7 @@ h1{
   display: flex;
   justify-content: center;
   align-items:initial;
+  border-radius: 50%;
 }
 
 .grid{
@@ -66,6 +69,7 @@ h1{
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
+  
 }
 .grid div{
   width: 7.69%;
@@ -88,6 +92,23 @@ h1{
   background-repeat: no-repeat;
   background-color: rgb(80, 76, 76); 
 }
+.seed{
+  background-image: url('https://static.wikia.nocookie.net/rickandmorty/images/e/e8/Speed_Mega_Seed.png/revision/latest?cb=20160909154201');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 1%;
+  width: 1%;
+}
+
+.sauce{
+  background-image: url('https://img1.picmix.com/output/stamp/normal/5/6/7/8/1898765_af7fc.png');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 1%;
+  width: 1%;
+}
 
 .pickle{
   background-image: url('https://www.vhv.rs/dpng/d/135-1355056_pickle-rick-png-pickle-rick-transparent-background-png.png');
@@ -95,6 +116,7 @@ h1{
   background-position: center;
   background-repeat: no-repeat;
 }
+
 
 .red {
   background-image: url('https://i.pinimg.com/originals/a4/d1/eb/a4d1eb6a03bd13a1bd0a2339ff6f92fe.gif');
@@ -117,20 +139,3 @@ h1{
   background-repeat: no-repeat;
 }
 
-.seed{
-  background-image: url('https://static.wikia.nocookie.net/rickandmorty/images/e/e8/Speed_Mega_Seed.png/revision/latest?cb=20160909154201');
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
-  height: 1%;
-  width: 1%;
-}
-
-.sauce{
-  background-image: url('https://img1.picmix.com/output/stamp/normal/5/6/7/8/1898765_af7fc.png');
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
-  height: 1%;
-  width: 1%;
-}

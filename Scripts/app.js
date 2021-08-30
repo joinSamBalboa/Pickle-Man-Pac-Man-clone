@@ -15,7 +15,8 @@ function init(){
   let highScore = 0
 
   const seedScore = 10
-  const sauceScore = 10
+  const sauceScore = 20
+  const ratScaredScore = 50
 
 
   const userClassName = 'pickle'
@@ -23,11 +24,11 @@ function init(){
   let userCurrentPosition = userStartingPosition
 
   const redClassName = 'red'
-  const redStartingPosition = 19
+  const redStartingPosition = 84
   let redCurrentPosition = redStartingPosition
 
   const blueClassName = 'blue'
-  const blueStartingPosition = 84
+  const blueStartingPosition = 85
   let blueCurrentPosition = blueStartingPosition
 
   const yellowClassName = 'yellow'
@@ -35,25 +36,22 @@ function init(){
   let yellowCurrentPosition = yellowStartingPosition
 
   const seedClassName = 'seed'
+  const sauceClassName = 'sauce'
 
   
 
 
   // Executions
 
-  // Start game
-  function startGame(){
-  // get rats to start moving
-  // check lives
+  
 
-  }
 
   // Create Grid
   function createGrid(startPosition){
-    for (let i = 0; i < cellCount; i++){ // Loop for the length of cellCount
-      const cell = document.createElement('div') // Create a div
-      cell.innerText = i // Add index as innerText
-      grid.appendChild(cell) // Append cell to grid
+    for (let i = 0; i < cellCount; i++){ 
+      const cell = document.createElement('div') 
+      cell.innerText = i
+      grid.appendChild(cell)
       cells.push(cell)
     }
 
@@ -180,26 +178,76 @@ function init(){
     const meetSeedTop = cells[userCurrentPosition - width].classList.contains('seed')
     const meetSeedBottom = cells[userCurrentPosition + width].classList.contains('seed')
 
+    const meetSauceRight = cells[userCurrentPosition + 1].classList.contains('sauce')
+    const meetSauceLeft = cells[userCurrentPosition - 1].classList.contains('sauce')
+    const meetSauceTop = cells[userCurrentPosition - width].classList.contains('sauce')
+    const meetSauceBottom = cells[userCurrentPosition + width].classList.contains('sauce')
+
     if (key === right && userCurrentPosition % width !== width - 1 && !horizontalRight && !verticalRight){
       if (meetRedRight){
         // userCurrentPosition++ 
         removePickle(userCurrentPosition)
         userCurrentPosition = userStartingPosition
         addPickle(userStartingPosition)
+        livesSpan.innerText = Number(livesSpan.innerText) - 1
       } else if (meetSeedRight){
         cells[userCurrentPosition + 1].classList.remove(seedClassName)
-        userCurrentPosition++
-        score += seedScore
-        scoreSpan.innerText = Number(scoreSpan.innerText) + score
-      } else {
-        userCurrentPosition++
-        
+        scoreSpan.innerText = Number(scoreSpan.innerText) + seedScore
+      } else if (meetSauceRight){
+        cells[userCurrentPosition + 1].classList.remove(sauceClassName)
+        scoreSpan.innerText = Number(scoreSpan.innerText) + sauceScore
       }
+      userCurrentPosition++
+      // score += seedScore
+      // scoreSpan.innerText = Number(scoreSpan.innerText) + score (Useful for accummulation for ghosts)
+      
     } else if (key === left && userCurrentPosition % width !== 0 && !horizontalLeft && !verticalLeft){
+      if (meetRedLeft){
+        // userCurrentPosition++ 
+        removePickle(userCurrentPosition)
+        userCurrentPosition = userStartingPosition
+        addPickle(userStartingPosition)
+        userCurrentPosition++
+        livesSpan.innerText = Number(livesSpan.innerText) - 1
+      } else if (meetSeedLeft){
+        cells[userCurrentPosition - 1].classList.remove(seedClassName)
+        scoreSpan.innerText = Number(scoreSpan.innerText) + seedScore
+      } else if (meetSauceLeft){
+        cells[userCurrentPosition - 1].classList.remove(sauceClassName)
+        scoreSpan.innerText = Number(scoreSpan.innerText) + sauceScore
+      }
       userCurrentPosition--
     } else if (key === up && userCurrentPosition >= width && !horizontalTop && !verticalTop){
+      if (meetRedTop){
+        // userCurrentPosition++ 
+        removePickle(userCurrentPosition)
+        userCurrentPosition = userStartingPosition
+        addPickle(userStartingPosition)
+        userCurrentPosition += width
+        livesSpan.innerText = Number(livesSpan.innerText) - 1
+      } else if (meetSeedTop){
+        cells[userCurrentPosition - width].classList.remove(seedClassName)
+        scoreSpan.innerText = Number(scoreSpan.innerText) + seedScore
+      } else if (meetSauceTop){
+        cells[userCurrentPosition - width].classList.remove(sauceClassName)
+        scoreSpan.innerText = Number(scoreSpan.innerText) + sauceScore
+      }
       userCurrentPosition -= width
     } else if (key === down && userCurrentPosition + width <= cellCount - 1 && !horizontalBottom && !verticalBottom){
+      if (meetRedBottom){
+        // userCurrentPosition++ 
+        removePickle(userCurrentPosition)
+        userCurrentPosition = userStartingPosition
+        addPickle(userStartingPosition)
+        userCurrentPosition -= width
+        livesSpan.innerText = Number(livesSpan.innerText) - 1
+      } else if (meetSeedBottom){
+        cells[userCurrentPosition + width].classList.remove(seedClassName)
+        scoreSpan.innerText = Number(scoreSpan.innerText) + seedScore
+      } else if (meetSauceBottom){
+        cells[userCurrentPosition + width].classList.remove(sauceClassName)
+        scoreSpan.innerText = Number(scoreSpan.innerText) + sauceScore
+      }
       userCurrentPosition += width
     } 
 
@@ -212,6 +260,83 @@ function init(){
 
 
   
+  
+
+  
+  
+  // Add szechuan sauce
+  function addSauce(){
+    for (let i = 0; i < cellCount; i++){
+      if (i === 14){
+        cells[i].classList.add(sauceClassName) 
+      } else if (i === 24){
+        cells[i].classList.add(sauceClassName) 
+      } else if (i === 144){
+        cells[i].classList.add(sauceClassName) 
+      } else if (i === 154){
+        cells[i].classList.add(sauceClassName) 
+      }
+    }
+  }
+  // Add megaseeds
+  function addSeed(){
+    for (let i = 0; i < cellCount; i++){
+      if (i >= 79 && i <= 81){
+        cells[i].classList.add(seedClassName) 
+      } else if (i >= 15 && i <= 23){
+        cells[i].classList.add(seedClassName) 
+      } else if (i === 27){
+        cells[i].classList.add(seedClassName) 
+      } else if (i === 32){
+        cells[i].classList.add(seedClassName) 
+      } else if (i === 37){
+        cells[i].classList.add(seedClassName) 
+      } else if (i === 40){
+        cells[i].classList.add(seedClassName) 
+      } else if (i >= 42 && i <= 48){
+        cells[i].classList.add(seedClassName) 
+      } else if (i === 50){
+        cells[i].classList.add(seedClassName) 
+      } else if (i >= 53 && i <= 55){
+        cells[i].classList.add(seedClassName) 
+      } else if (i === 58){
+        cells[i].classList.add(seedClassName) 
+      } else if (i >= 61 && i <= 63){
+        cells[i].classList.add(seedClassName) 
+      } else if (i === 67){
+        cells[i].classList.add(seedClassName) 
+      } else if (i === 75){
+        cells[i].classList.add(seedClassName) 
+      } else if (i >= 87 && i <=90){
+        cells[i].classList.add(seedClassName) 
+      } else if (i === 93){
+        cells[i].classList.add(seedClassName) 
+      } else if (i === 101){
+        cells[i].classList.add(seedClassName) 
+      } else if (i >= 105 && i <= 107){
+        cells[i].classList.add(seedClassName) 
+      } else if (i === 110){
+        cells[i].classList.add(seedClassName) 
+      } else if (i >= 113 && i <= 115){
+        cells[i].classList.add(seedClassName) 
+      } else if (i === 118){
+        cells[i].classList.add(seedClassName) 
+      } else if (i >= 120 && i <= 126){
+        cells[i].classList.add(seedClassName) 
+      } else if (i === 128){
+        cells[i].classList.add(seedClassName) 
+      } else if (i === 131){
+        cells[i].classList.add(seedClassName) 
+      } else if (i === 136){
+        cells[i].classList.add(seedClassName) 
+      } else if (i === 141){
+        cells[i].classList.add(seedClassName) 
+      } else if (i >= 145 && i <= 154){
+        cells[i].classList.add(seedClassName) 
+      }
+    }
+  }
+
   // Add Red rat
   function addRedRat(cellPosition){
     cells[cellPosition].classList.add(redClassName)
@@ -222,12 +347,24 @@ function init(){
   }
 
   // Add blue rat
+  function addBlueRat(cellPosition){
+    cells[cellPosition].classList.add(blueClassName)
+  }
   // Remove blue rat
+  function removeBlueRat(cellPosition){
+    cells[cellPosition].classList.remove(blueClassName)
+  }
 
   // Add yellow rat
+  function addYellowRat(cellPosition){
+    cells[cellPosition].classList.add(yellowClassName)
+  }
   // remove yellow rat
+  function removeYellowRat(cellPosition){
+    cells[cellPosition].classList.remove(yellowClassName)
+  }
 
-  // Random Movement
+  // Red rat random Movement
   function redRandomMovement(){
     
     removeRedRat(redCurrentPosition)
@@ -244,46 +381,231 @@ function init(){
     const horizontalBottom = cells[redCurrentPosition + width].classList.contains('horizontal-border')
     const verticalTop = cells[redCurrentPosition - width].classList.contains('vertical-border')
     const verticalBottom = cells[redCurrentPosition + width].classList.contains('vertical-border')
+
+    const meetuserLeft = cells[redCurrentPosition + 1].classList.contains('pickle')
+    const meetuserRight = cells[redCurrentPosition - 1].classList.contains('pickle')
+    const meetuserBottom = cells[redCurrentPosition - width].classList.contains('pickle')
+    const meetuserTop = cells[redCurrentPosition + width].classList.contains('pickle')
       
     // Add arguments to check for if userCurrentPosition is larger or smaller than rat position
-    if (randomMovement === 1 && redCurrentPosition % width !== width - 1 && !horizontalRight && !verticalRight){
+    if (randomMovement === 1 && redCurrentPosition % width !== width - 1 && !horizontalRight && !verticalRight){ //&& userCurrentPosition % width > redCurrentPosition % width//
+      if (meetuserLeft){
+        // userCurrentPosition++ 
+        removePickle(userCurrentPosition)
+        userCurrentPosition = userStartingPosition
+        addPickle(userStartingPosition)
+        livesSpan.innerText = Number(livesSpan.innerText) - 1
+      } 
       redCurrentPosition++
-    } else if (randomMovement === -1 && redCurrentPosition % width !== 0 && !horizontalLeft && !verticalLeft){
+      
+    } else if (randomMovement === -1 && redCurrentPosition % width !== 0 && !horizontalLeft && !verticalLeft){ //&& userCurrentPosition % width < redCurrentPosition % width
+      if (meetuserRight){
+        // userCurrentPosition++ 
+        removePickle(userCurrentPosition)
+        userCurrentPosition = userStartingPosition
+        addPickle(userStartingPosition)
+        userCurrentPosition++
+        livesSpan.innerText = Number(livesSpan.innerText) - 1
+      }
       redCurrentPosition--
-    } else if (randomMovement === -width && redCurrentPosition >= width && !horizontalTop && !verticalTop){
+    } else if (randomMovement === -width && redCurrentPosition >= width && !horizontalTop && !verticalTop){ // && userCurrentPosition < redCurrentPosition
+      if (meetuserBottom){
+        // userCurrentPosition++ 
+        removePickle(userCurrentPosition)
+        userCurrentPosition = userStartingPosition
+        addPickle(userStartingPosition)
+        userCurrentPosition += width
+        livesSpan.innerText = Number(livesSpan.innerText) - 1
+      }
       redCurrentPosition -= width
-    } else if (randomMovement === width && redCurrentPosition + width <= cellCount - 1 && !horizontalBottom && !verticalBottom){
+    } else if (randomMovement === width && redCurrentPosition + width <= cellCount - 1 && !horizontalBottom && !verticalBottom){ //&& userCurrentPosition > redCurrentPosition
+      if (meetuserTop){
+        // userCurrentPosition++ 
+        removePickle(userCurrentPosition)
+        userCurrentPosition = userStartingPosition
+        addPickle(userStartingPosition)
+        userCurrentPosition += width
+        livesSpan.innerText = Number(livesSpan.innerText) - 1
+      }
       redCurrentPosition += width
     } 
   
-    addRedRat(redCurrentPosition)
+    addRedRat(redCurrentPosition)  
+  }
+
+  // Blue rat random movement
+  function blueRandomMovement(){
+    
+    removeBlueRat(blueCurrentPosition)
+  
+    const movementOptions = [1, -1, width, -width]
+    const randomMovement = movementOptions[Math.floor(Math.random() * movementOptions.length)]
+  
+    const horizontalRight = cells[blueCurrentPosition + 1].classList.contains('horizontal-border')
+    const horizontalLeft = cells[blueCurrentPosition - 1].classList.contains('horizontal-border')
+    const verticalRight = cells[blueCurrentPosition + 1].classList.contains('vertical-border')
+    const verticalLeft = cells[blueCurrentPosition - 1].classList.contains('vertical-border')
+  
+    const horizontalTop = cells[blueCurrentPosition - width].classList.contains('horizontal-border')
+    const horizontalBottom = cells[blueCurrentPosition + width].classList.contains('horizontal-border')
+    const verticalTop = cells[blueCurrentPosition - width].classList.contains('vertical-border')
+    const verticalBottom = cells[blueCurrentPosition + width].classList.contains('vertical-border')
+
+    const meetuserLeft = cells[blueCurrentPosition + 1].classList.contains('pickle')
+    const meetuserRight = cells[blueCurrentPosition - 1].classList.contains('pickle')
+    const meetuserBottom = cells[blueCurrentPosition - width].classList.contains('pickle')
+    const meetuserTop = cells[blueCurrentPosition + width].classList.contains('pickle')
       
+    // Add arguments to check for if userCurrentPosition is larger or smaller than rat position
+    if (randomMovement === 1 && blueCurrentPosition % width !== width - 1 && !horizontalRight && !verticalRight){ // && userCurrentPosition % width > blueCurrentPosition % width
+      if (meetuserLeft){
+        // userCurrentPosition++ 
+        removePickle(userCurrentPosition)
+        userCurrentPosition = userStartingPosition
+        addPickle(userStartingPosition)
+        livesSpan.innerText = Number(livesSpan.innerText) - 1
+      } 
+      blueCurrentPosition++
+      
+    } else if (randomMovement === -1 && blueCurrentPosition % width !== 0 && !horizontalLeft && !verticalLeft){ // && userCurrentPosition % width < blueCurrentPosition % width
+      if (meetuserRight){
+        // userCurrentPosition++ 
+        removePickle(userCurrentPosition)
+        userCurrentPosition = userStartingPosition
+        addPickle(userStartingPosition)
+        userCurrentPosition++
+        livesSpan.innerText = Number(livesSpan.innerText) - 1
+      }
+      blueCurrentPosition--
+    } else if (randomMovement === -width && blueCurrentPosition >= width && !horizontalTop && !verticalTop){ // && userCurrentPosition < blueCurrentPosition
+      if (meetuserBottom){
+        // userCurrentPosition++ 
+        removePickle(userCurrentPosition)
+        userCurrentPosition = userStartingPosition
+        addPickle(userStartingPosition)
+        userCurrentPosition += width
+        livesSpan.innerText = Number(livesSpan.innerText) - 1
+      }
+      blueCurrentPosition -= width
+    } else if (randomMovement === width && blueCurrentPosition + width <= cellCount - 1 && !horizontalBottom && !verticalBottom){ // && userCurrentPosition > blueCurrentPosition
+      if (meetuserTop){
+        // userCurrentPosition++ 
+        removePickle(userCurrentPosition)
+        userCurrentPosition = userStartingPosition
+        addPickle(userStartingPosition)
+        userCurrentPosition += width
+        livesSpan.innerText = Number(livesSpan.innerText) - 1
+      }
+      blueCurrentPosition += width
+    } 
+  
+    addBlueRat(blueCurrentPosition)  
+  }
+
+  // Yellow rat random movement
+  function yellowRandomMovement(){
+    
+    removeYellowRat(yellowCurrentPosition)
+  
+    const movementOptions = [1, -1, width, -width]
+    const randomMovement = movementOptions[Math.floor(Math.random() * movementOptions.length)]
+  
+    const horizontalRight = cells[yellowCurrentPosition + 1].classList.contains('horizontal-border')
+    const horizontalLeft = cells[yellowCurrentPosition - 1].classList.contains('horizontal-border')
+    const verticalRight = cells[yellowCurrentPosition + 1].classList.contains('vertical-border')
+    const verticalLeft = cells[yellowCurrentPosition - 1].classList.contains('vertical-border')
+  
+    const horizontalTop = cells[yellowCurrentPosition - width].classList.contains('horizontal-border')
+    const horizontalBottom = cells[yellowCurrentPosition + width].classList.contains('horizontal-border')
+    const verticalTop = cells[yellowCurrentPosition - width].classList.contains('vertical-border')
+    const verticalBottom = cells[yellowCurrentPosition + width].classList.contains('vertical-border')
+
+    const meetuserLeft = cells[yellowCurrentPosition + 1].classList.contains('pickle')
+    const meetuserRight = cells[yellowCurrentPosition - 1].classList.contains('pickle')
+    const meetuserBottom = cells[yellowCurrentPosition - width].classList.contains('pickle')
+    const meetuserTop = cells[yellowCurrentPosition + width].classList.contains('pickle')
+      
+    // Add arguments to check for if userCurrentPosition is larger or smaller than rat position
+    if (randomMovement === 1 && yellowCurrentPosition % width !== width - 1 && !horizontalRight && !verticalRight){ // && userCurrentPosition % width > yellowCurrentPosition % width
+      if (meetuserLeft){
+        // userCurrentPosition++ 
+        removePickle(userCurrentPosition)
+        userCurrentPosition = userStartingPosition
+        addPickle(userStartingPosition)
+        livesSpan.innerText = Number(livesSpan.innerText) - 1
+      } 
+      yellowCurrentPosition++
+      
+    } else if (randomMovement === -1 && yellowCurrentPosition % width !== 0 && !horizontalLeft && !verticalLeft){ // && userCurrentPosition % width < yellowCurrentPosition % width
+      if (meetuserRight){
+        // userCurrentPosition++ 
+        removePickle(userCurrentPosition)
+        userCurrentPosition = userStartingPosition
+        addPickle(userStartingPosition)
+        userCurrentPosition++
+        livesSpan.innerText = Number(livesSpan.innerText) - 1
+      }
+      yellowCurrentPosition--
+    } else if (randomMovement === -width && yellowCurrentPosition >= width && !horizontalTop && !verticalTop){ // && userCurrentPosition < yellowCurrentPosition
+      if (meetuserBottom){
+        // userCurrentPosition++ 
+        removePickle(userCurrentPosition)
+        userCurrentPosition = userStartingPosition
+        addPickle(userStartingPosition)
+        userCurrentPosition += width
+        livesSpan.innerText = Number(livesSpan.innerText) - 1
+      }
+      yellowCurrentPosition -= width
+    } else if (randomMovement === width && yellowCurrentPosition + width <= cellCount - 1 && !horizontalBottom && !verticalBottom){ // && userCurrentPosition > yellowCurrentPosition
+      if (meetuserTop){
+        // userCurrentPosition++ 
+        removePickle(userCurrentPosition)
+        userCurrentPosition = userStartingPosition
+        addPickle(userStartingPosition)
+        userCurrentPosition += width
+        livesSpan.innerText = Number(livesSpan.innerText) - 1
+      }
+      yellowCurrentPosition += width
+    } 
+  
+    addYellowRat(yellowCurrentPosition)  
   }
 
   // Move red rat on interval
   function moveRedRat (){
-    const redInterval = setInterval(() => {
+    setInterval(() => {
       redRandomMovement()
-    }, 350)
-  }
-  
-  
-  // Add megaseeds
-  function addSeed(){
-    for (let i = 0; i < cellCount; i++){
-      if (i >= 79 && i <= 81){
-        cells[i].classList.add(seedClassName) 
-      } 
-    }
+    }, 250)
   }
 
-  // Add szechuan sauce
+  // Move blue rat on interval
+  function moveBlueRat (){
+    setInterval(() => {
+      blueRandomMovement()
+    }, 250)
+  }
 
+  // Move yellow rat on interval
+  function moveYellowRat (){
+    setInterval(() => {
+      yellowRandomMovement()
+    }, 250)
+  }
 
+  
+  // Start game function
+  function startGame(){
+  // get rats to start moving
+  // check lives
+  // When seeds and sauce = 0, game over
+  // Display score at the end of the game
+  // If lives 0 before seeds and sauce = 0, game over
+  
+  }
 
-
-
-
+  // turn rats in edible ghosts for a fixed amount of time
+  // when eaten, they return to starting position
+  
 
 
 
@@ -300,7 +622,16 @@ function init(){
   createHorizontalPath()
   createVerticalPath()
   addRedRat(redCurrentPosition)
+  addBlueRat(blueCurrentPosition)
+  addYellowRat(yellowCurrentPosition)
+  moveRedRat()
+  moveBlueRat()
+  moveYellowRat()
+  addSauce()
   addSeed()
+  
+  
+  
   
 }
 
