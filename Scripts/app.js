@@ -16,7 +16,7 @@ function init(){
 
   const seedScore = 10
   const sauceScore = 20
-  const ratScaredScore = 50
+  const ratPreyScore = 50
 
 
   const userClassName = 'pickle'
@@ -26,6 +26,10 @@ function init(){
   const redClassName = 'red'
   const redStartingPosition = 84
   let redCurrentPosition = redStartingPosition
+
+  const redPreyClassName = 'red-prey'
+  const redPreyStartingPosition = redCurrentPosition
+  let redPreyCurrentPosition = redPreyStartingPosition
 
   const blueClassName = 'blue'
   const blueStartingPosition = 85
@@ -136,135 +140,7 @@ function init(){
     }
   }
   
-  
-  // Add Pickle
-  function addPickle(cellPosition){
-    cells[cellPosition].classList.add(userClassName)
-  }
-
-  // Remove Pickle
-  function removePickle(cellPosition){
-    cells[cellPosition].classList.remove(userClassName)
-  }
-
-  // User Key movement
-  function userKeyMovement(event){
-  // Remove existing pickle
-    removePickle(userCurrentPosition)
-
-    const key = event.keyCode 
-    const right = 39
-    const left = 37
-    const up = 38
-    const down = 40
-
-    const horizontalRight = cells[userCurrentPosition + 1].classList.contains('horizontal-border')
-    const horizontalLeft = cells[userCurrentPosition - 1].classList.contains('horizontal-border')
-    const verticalRight = cells[userCurrentPosition + 1].classList.contains('vertical-border')
-    const verticalLeft = cells[userCurrentPosition - 1].classList.contains('vertical-border')
-
-    const horizontalTop = cells[userCurrentPosition - width].classList.contains('horizontal-border')
-    const horizontalBottom = cells[userCurrentPosition + width].classList.contains('horizontal-border')
-    const verticalTop = cells[userCurrentPosition - width].classList.contains('vertical-border')
-    const verticalBottom = cells[userCurrentPosition + width].classList.contains('vertical-border')
-    
-    const meetRedRight = cells[userCurrentPosition + 1].classList.contains('red')
-    const meetRedLeft = cells[userCurrentPosition - 1].classList.contains('red')
-    const meetRedTop = cells[userCurrentPosition - width].classList.contains('red')
-    const meetRedBottom = cells[userCurrentPosition + width].classList.contains('red')
-
-    const meetSeedRight = cells[userCurrentPosition + 1].classList.contains('seed')
-    const meetSeedLeft = cells[userCurrentPosition - 1].classList.contains('seed')
-    const meetSeedTop = cells[userCurrentPosition - width].classList.contains('seed')
-    const meetSeedBottom = cells[userCurrentPosition + width].classList.contains('seed')
-
-    const meetSauceRight = cells[userCurrentPosition + 1].classList.contains('sauce')
-    const meetSauceLeft = cells[userCurrentPosition - 1].classList.contains('sauce')
-    const meetSauceTop = cells[userCurrentPosition - width].classList.contains('sauce')
-    const meetSauceBottom = cells[userCurrentPosition + width].classList.contains('sauce')
-
-    if (key === right && userCurrentPosition % width !== width - 1 && !horizontalRight && !verticalRight){
-      if (meetRedRight){
-        // userCurrentPosition++ 
-        removePickle(userCurrentPosition)
-        userCurrentPosition = userStartingPosition
-        addPickle(userStartingPosition)
-        livesSpan.innerText = Number(livesSpan.innerText) - 1
-      } else if (meetSeedRight){
-        cells[userCurrentPosition + 1].classList.remove(seedClassName)
-        scoreSpan.innerText = Number(scoreSpan.innerText) + seedScore
-      } else if (meetSauceRight){
-        cells[userCurrentPosition + 1].classList.remove(sauceClassName)
-        scoreSpan.innerText = Number(scoreSpan.innerText) + sauceScore
-      }
-      userCurrentPosition++
-      // score += seedScore
-      // scoreSpan.innerText = Number(scoreSpan.innerText) + score (Useful for accummulation for ghosts)
-      
-    } else if (key === left && userCurrentPosition % width !== 0 && !horizontalLeft && !verticalLeft){
-      if (meetRedLeft){
-        // userCurrentPosition++ 
-        removePickle(userCurrentPosition)
-        userCurrentPosition = userStartingPosition
-        addPickle(userStartingPosition)
-        userCurrentPosition++
-        livesSpan.innerText = Number(livesSpan.innerText) - 1
-      } else if (meetSeedLeft){
-        cells[userCurrentPosition - 1].classList.remove(seedClassName)
-        scoreSpan.innerText = Number(scoreSpan.innerText) + seedScore
-      } else if (meetSauceLeft){
-        cells[userCurrentPosition - 1].classList.remove(sauceClassName)
-        scoreSpan.innerText = Number(scoreSpan.innerText) + sauceScore
-      }
-      userCurrentPosition--
-    } else if (key === up && userCurrentPosition >= width && !horizontalTop && !verticalTop){
-      if (meetRedTop){
-        // userCurrentPosition++ 
-        removePickle(userCurrentPosition)
-        userCurrentPosition = userStartingPosition
-        addPickle(userStartingPosition)
-        userCurrentPosition += width
-        livesSpan.innerText = Number(livesSpan.innerText) - 1
-      } else if (meetSeedTop){
-        cells[userCurrentPosition - width].classList.remove(seedClassName)
-        scoreSpan.innerText = Number(scoreSpan.innerText) + seedScore
-      } else if (meetSauceTop){
-        cells[userCurrentPosition - width].classList.remove(sauceClassName)
-        scoreSpan.innerText = Number(scoreSpan.innerText) + sauceScore
-      }
-      userCurrentPosition -= width
-    } else if (key === down && userCurrentPosition + width <= cellCount - 1 && !horizontalBottom && !verticalBottom){
-      if (meetRedBottom){
-        // userCurrentPosition++ 
-        removePickle(userCurrentPosition)
-        userCurrentPosition = userStartingPosition
-        addPickle(userStartingPosition)
-        userCurrentPosition -= width
-        livesSpan.innerText = Number(livesSpan.innerText) - 1
-      } else if (meetSeedBottom){
-        cells[userCurrentPosition + width].classList.remove(seedClassName)
-        scoreSpan.innerText = Number(scoreSpan.innerText) + seedScore
-      } else if (meetSauceBottom){
-        cells[userCurrentPosition + width].classList.remove(sauceClassName)
-        scoreSpan.innerText = Number(scoreSpan.innerText) + sauceScore
-      }
-      userCurrentPosition += width
-    } 
-
-    addPickle(userCurrentPosition)
-    
-  }
-
-
-  
-
-
-  
-  
-
-  
-  
-  // Add szechuan sauce
+// Add szechuan sauce
   function addSauce(){
     for (let i = 0; i < cellCount; i++){
       if (i === 14){
@@ -335,6 +211,139 @@ function init(){
         cells[i].classList.add(seedClassName) 
       }
     }
+  }
+  
+  // Add Pickle
+  function addPickle(cellPosition){
+    cells[cellPosition].classList.add(userClassName)
+  }
+
+  // Remove Pickle
+  function removePickle(cellPosition){
+    cells[cellPosition].classList.remove(userClassName)
+  }
+
+  // User Key movement
+  function userKeyMovement(event){
+  // Remove existing pickle
+    removePickle(userCurrentPosition)
+
+    const key = event.keyCode 
+    const right = 39
+    const left = 37
+    const up = 38
+    const down = 40
+
+    const horizontalRight = cells[userCurrentPosition + 1].classList.contains('horizontal-border')
+    const horizontalLeft = cells[userCurrentPosition - 1].classList.contains('horizontal-border')
+    const verticalRight = cells[userCurrentPosition + 1].classList.contains('vertical-border')
+    const verticalLeft = cells[userCurrentPosition - 1].classList.contains('vertical-border')
+
+    const horizontalTop = cells[userCurrentPosition - width].classList.contains('horizontal-border')
+    const horizontalBottom = cells[userCurrentPosition + width].classList.contains('horizontal-border')
+    const verticalTop = cells[userCurrentPosition - width].classList.contains('vertical-border')
+    const verticalBottom = cells[userCurrentPosition + width].classList.contains('vertical-border')
+    
+    const meetRedRight = cells[userCurrentPosition + 1].classList.contains('red')
+    const meetRedLeft = cells[userCurrentPosition - 1].classList.contains('red')
+    const meetRedTop = cells[userCurrentPosition - width].classList.contains('red')
+    const meetRedBottom = cells[userCurrentPosition + width].classList.contains('red')
+
+    const meetRedPreyRight = cells[userCurrentPosition + 1].classList.contains('red-prey')
+    const meetRedPreyLeft = cells[userCurrentPosition - 1].classList.contains('red-prey')
+    const meetRedPreyTop = cells[userCurrentPosition - width].classList.contains('red-prey')
+    const meetRedPreyBottom = cells[userCurrentPosition + width].classList.contains('red-prey')
+
+    const meetSeedRight = cells[userCurrentPosition + 1].classList.contains('seed')
+    const meetSeedLeft = cells[userCurrentPosition - 1].classList.contains('seed')
+    const meetSeedTop = cells[userCurrentPosition - width].classList.contains('seed')
+    const meetSeedBottom = cells[userCurrentPosition + width].classList.contains('seed')
+
+    const meetSauceRight = cells[userCurrentPosition + 1].classList.contains('sauce')
+    const meetSauceLeft = cells[userCurrentPosition - 1].classList.contains('sauce')
+    const meetSauceTop = cells[userCurrentPosition - width].classList.contains('sauce')
+    const meetSauceBottom = cells[userCurrentPosition + width].classList.contains('sauce')
+
+    if (key === right && userCurrentPosition % width !== width - 1 && !horizontalRight && !verticalRight){
+      if (meetRedRight){
+        // userCurrentPosition++ 
+        removePickle(userCurrentPosition)
+        userCurrentPosition = userStartingPosition
+        addPickle(userStartingPosition)
+        livesSpan.innerText = Number(livesSpan.innerText) - 1
+      } else if (meetRedPreyRight){
+        // userCurrentPosition++ 
+        cells[userCurrentPosition + 1].classList.remove(redPreyClassName)
+        scoreSpan.innerText = Number(scoreSpan.innerText) + ratPreyScore
+      } else if (meetSeedRight){
+        cells[userCurrentPosition + 1].classList.remove(seedClassName)
+        scoreSpan.innerText = Number(scoreSpan.innerText) + seedScore
+      } else if (meetSauceRight){
+        cells[userCurrentPosition + 1].classList.remove(sauceClassName)
+        scoreSpan.innerText = Number(scoreSpan.innerText) + sauceScore
+        killRedMode()
+        setTimeout(() => {
+          removeRedPrey(redPreyCurrentPosition)
+          addRedRat(redPreyCurrentPosition)
+          // moveRedRat()
+        }, 3000)
+      }
+      userCurrentPosition++
+      // score += seedScore
+      // scoreSpan.innerText = Number(scoreSpan.innerText) + score (Useful for accummulation for ghosts)
+      
+    } else if (key === left && userCurrentPosition % width !== 0 && !horizontalLeft && !verticalLeft){
+      if (meetRedLeft){
+        // userCurrentPosition++ 
+        removePickle(userCurrentPosition)
+        userCurrentPosition = userStartingPosition
+        addPickle(userStartingPosition)
+        userCurrentPosition++
+        livesSpan.innerText = Number(livesSpan.innerText) - 1
+      } else if (meetSeedLeft){
+        cells[userCurrentPosition - 1].classList.remove(seedClassName)
+        scoreSpan.innerText = Number(scoreSpan.innerText) + seedScore
+      } else if (meetSauceLeft){
+        cells[userCurrentPosition - 1].classList.remove(sauceClassName)
+        scoreSpan.innerText = Number(scoreSpan.innerText) + sauceScore
+      }
+      userCurrentPosition--
+    } else if (key === up && userCurrentPosition >= width && !horizontalTop && !verticalTop){
+      if (meetRedTop){
+        // userCurrentPosition++ 
+        removePickle(userCurrentPosition)
+        userCurrentPosition = userStartingPosition
+        addPickle(userStartingPosition)
+        userCurrentPosition += width
+        livesSpan.innerText = Number(livesSpan.innerText) - 1
+      } else if (meetSeedTop){
+        cells[userCurrentPosition - width].classList.remove(seedClassName)
+        scoreSpan.innerText = Number(scoreSpan.innerText) + seedScore
+      } else if (meetSauceTop){
+        cells[userCurrentPosition - width].classList.remove(sauceClassName)
+        scoreSpan.innerText = Number(scoreSpan.innerText) + sauceScore
+      }
+      userCurrentPosition -= width
+    } else if (key === down && userCurrentPosition + width <= cellCount - 1 && !horizontalBottom && !verticalBottom){
+      if (meetRedBottom){
+        // userCurrentPosition++ 
+        removePickle(userCurrentPosition)
+        userCurrentPosition = userStartingPosition
+        addPickle(userStartingPosition)
+        userCurrentPosition -= width
+        livesSpan.innerText = Number(livesSpan.innerText) - 1
+      } else if (meetSeedBottom){
+        cells[userCurrentPosition + width].classList.remove(seedClassName)
+        scoreSpan.innerText = Number(scoreSpan.innerText) + seedScore
+      } else if (meetSauceBottom){
+        cells[userCurrentPosition + width].classList.remove(sauceClassName)
+        scoreSpan.innerText = Number(scoreSpan.innerText) + sauceScore
+      }
+      userCurrentPosition += width
+    } 
+
+    addPickle(userCurrentPosition)
+    
   }
 
   // Add Red rat
@@ -571,11 +580,16 @@ function init(){
     addYellowRat(yellowCurrentPosition)  
   }
 
+  
+  
   // Move red rat on interval
   function moveRedRat (){
-    setInterval(() => {
+    const redInterval = setInterval(() => {
       redRandomMovement()
     }, 250)
+    if (cells[redCurrentPosition].classList.contains(redPreyClassName)){
+      clearInterval(redInterval)
+    }
   }
 
   // Move blue rat on interval
@@ -592,6 +606,15 @@ function init(){
     }, 250)
   }
 
+  // Add Red prey
+  function addRedPrey(cellPosition){
+    cells[cellPosition].classList.add(redPreyClassName)
+  }
+  // Remove Red Rat
+  function removeRedPrey(cellPosition){
+    cells[cellPosition].classList.remove(redPreyClassName)
+  }
+
   
   // Start game function
   function startGame(){
@@ -600,14 +623,99 @@ function init(){
   // When seeds and sauce = 0, game over
   // Display score at the end of the game
   // If lives 0 before seeds and sauce = 0, game over
-  
+    moveRedRat()
+    moveBlueRat()
+    moveYellowRat()
+    
   }
 
-  // turn rats in edible ghosts for a fixed amount of time
-  // when eaten, they return to starting position
+  // Allow rats to become killed function
+  function killRedMode(){
+    // remove red rat
+    removeRedRat(redCurrentPosition)
+    // add killable rat clone at current position of previous rat
+    addRedPrey(redCurrentPosition)
+    // red prey moves randomly
+    moveRedPrey()
+    // stop red rat moving
+    
+
+
+  }
+  // red prey movement
+  function redPreyMovement(){
+    
+    removeRedPrey(redPreyCurrentPosition)
   
+    const movementOptions = [1, -1, width, -width]
+    const randomMovement = movementOptions[Math.floor(Math.random() * movementOptions.length)]
+  
+    const horizontalRight = cells[redPreyCurrentPosition + 1].classList.contains('horizontal-border')
+    const horizontalLeft = cells[redPreyCurrentPosition - 1].classList.contains('horizontal-border')
+    const verticalRight = cells[redPreyCurrentPosition + 1].classList.contains('vertical-border')
+    const verticalLeft = cells[redPreyCurrentPosition - 1].classList.contains('vertical-border')
+  
+    const horizontalTop = cells[redPreyCurrentPosition - width].classList.contains('horizontal-border')
+    const horizontalBottom = cells[redPreyCurrentPosition + width].classList.contains('horizontal-border')
+    const verticalTop = cells[redPreyCurrentPosition - width].classList.contains('vertical-border')
+    const verticalBottom = cells[redPreyCurrentPosition + width].classList.contains('vertical-border')
 
+    const meetuserLeft = cells[redPreyCurrentPosition + 1].classList.contains('pickle')
+    const meetuserRight = cells[redPreyCurrentPosition - 1].classList.contains('pickle')
+    const meetuserBottom = cells[redPreyCurrentPosition - width].classList.contains('pickle')
+    const meetuserTop = cells[redPreyCurrentPosition + width].classList.contains('pickle')
+      
+    // Add arguments to check for if userCurrentPosition is larger or smaller than rat position
+    if (randomMovement === 1 && redPreyCurrentPosition % width !== width - 1 && !horizontalRight && !verticalRight){ //&& userCurrentPosition % width > redPreyCurrentPosition % width//
+      if (meetuserLeft){
+        // userCurrentPosition++ 
+        removePickle(userCurrentPosition)
+        userCurrentPosition = userStartingPosition
+        addPickle(userStartingPosition)
+        livesSpan.innerText = Number(livesSpan.innerText) - 1
+      } 
+      redPreyCurrentPosition++
+      
+    } else if (randomMovement === -1 && redPreyCurrentPosition % width !== 0 && !horizontalLeft && !verticalLeft){ //&& userCurrentPosition % width < redPreyCurrentPosition % width
+      if (meetuserRight){
+        // userCurrentPosition++ 
+        removePickle(userCurrentPosition)
+        userCurrentPosition = userStartingPosition
+        addPickle(userStartingPosition)
+        userCurrentPosition++
+        livesSpan.innerText = Number(livesSpan.innerText) - 1
+      }
+      redPreyCurrentPosition--
+    } else if (randomMovement === -width && redPreyCurrentPosition >= width && !horizontalTop && !verticalTop){ // && userCurrentPosition < redPreyCurrentPosition
+      if (meetuserBottom){
+        // userCurrentPosition++ 
+        removePickle(userCurrentPosition)
+        userCurrentPosition = userStartingPosition
+        addPickle(userStartingPosition)
+        userCurrentPosition += width
+        livesSpan.innerText = Number(livesSpan.innerText) - 1
+      }
+      redPreyCurrentPosition -= width
+    } else if (randomMovement === width && redPreyCurrentPosition + width <= cellCount - 1 && !horizontalBottom && !verticalBottom){ //&& userCurrentPosition > redPreyCurrentPosition
+      if (meetuserTop){
+        // userCurrentPosition++ 
+        removePickle(userCurrentPosition)
+        userCurrentPosition = userStartingPosition
+        addPickle(userStartingPosition)
+        userCurrentPosition += width
+        livesSpan.innerText = Number(livesSpan.innerText) - 1
+      }
+      redPreyCurrentPosition += width
+    } 
+  
+    addRedPrey(redPreyCurrentPosition)  
+  }
 
+  function moveRedPrey (){
+    setInterval(() => {
+      redPreyMovement()
+    }, 250)
+  }
 
 
 
@@ -616,7 +724,7 @@ function init(){
   // Events
 
   document.addEventListener('keydown', userKeyMovement)
-  document.addEventListener('click', startGame)
+  start.addEventListener('click', startGame)
 
   createGrid(userStartingPosition)
   createHorizontalPath()
@@ -624,9 +732,7 @@ function init(){
   addRedRat(redCurrentPosition)
   addBlueRat(blueCurrentPosition)
   addYellowRat(yellowCurrentPosition)
-  moveRedRat()
-  moveBlueRat()
-  moveYellowRat()
+  
   addSauce()
   addSeed()
   
