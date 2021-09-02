@@ -14,22 +14,29 @@ body{
   margin: 0;
   font-family: 'get_schwiftyregular';
   text-align: center;
+  background-image: url('https://media1.giphy.com/media/BHNfhgU63qrks/giphy.gif?cid=ecf05e471sy0uxr17qr0pop27c84mpvr0wfitjzqv2h9q9ok&rid=giphy.gif&ct=g');
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: white;
 }
 h1{
   font-size: 100px;
   color: lightskyblue;
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: black;
-  text-shadow: 3px 3px 3px rgb(99, 194, 21);
   margin: auto;
+  animation: glow 1s ease-in-out infinite alternate;
 }
 
-.capital{
-  font-size:150px;
-  -webkit-text-stroke-width: 3px;
-  -webkit-text-stroke-color: black;
-  text-shadow: 5px 5px 5px rgb(99, 194, 21);
+@-webkit-keyframes glow {
+  from {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px rgb(99, 194, 21), 0 0 40px rgb(99, 194, 21), 0 0 50px rgb(99, 194, 21), 0 0 60px rgb(99, 194, 21), 0 0 70px rgb(99, 194, 21);
+  }
+  to {
+    text-shadow: 0 0 20px #fff, 0 0 30px #3dac1e, 0 0 40px #3dac1e, 0 0 50px #3dac1e, 0 0 60px #3dac1e, 0 0 70px #3dac1e, 0 0 80px #3dac1e;
+  }
 }
+
 
 .top{
   display: flex;
@@ -64,8 +71,8 @@ h1{
   flex-wrap: wrap;
   height: 600px;
   width: 600px;
-  box-shadow: 0 0 50px 0 rgba(231, 46, 46, 0.577);
-  background-image: url('../Images/PACMAN\ 2.jpg');
+  box-shadow: 0 0 50px 0 rgba(201, 14, 79, 0.577);
+  background-image: url('../Images/PACMAN\ 2.jpg'); 
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
@@ -97,8 +104,7 @@ h1{
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
-  height: 1%;
-  width: 1%;
+  background-size: 10px;
 }
 
 .sauce{
@@ -106,8 +112,7 @@ h1{
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
-  height: 1%;
-  width: 1%;
+  background-size: 15px;
 }
 
 .pickle{
@@ -119,43 +124,49 @@ h1{
 
 
 .red {
-  background-image: url('https://i.pinimg.com/originals/34/6f/77/346f77c4a481f12e01eaed7b298bd68d.gif');
+  background-image: url('../Images/ezgif.com-gif-maker.gif');
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
+  background-size: 70px;
 }
 
 .blue {
-  background-image: url('https://i.pinimg.com/originals/34/6f/77/346f77c4a481f12e01eaed7b298bd68d.gif');
+  background-image: url('../Images/blue.gif');
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
+  background-size: 70px;
 }
 
 .yellow {
-  background-image: url('https://i.pinimg.com/originals/34/6f/77/346f77c4a481f12e01eaed7b298bd68d.gif');
+  background-image: url('../Images/yellow.gif');
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
+  background-size: 70px;
 }
 
 .red-prey {
-  background-image: url('http://www.animatedimages.org/data/media/601/animated-rat-image-0091.gif');
+  background-image: url('../Images/redprey.gif');
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
+  background-size: 70px;
 }
 
 .blue-prey {
-  background-image: url('https://www.vhv.rs/dpng/d/135-1355056_pickle-rick-png-pickle-rick-transparent-background-png.png');
+  background-image: url('../Images/blueprey.gif');
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
+  background-size: 70px;
 }
 
 .yellow-prey {
-  background-image: url('https://www.vhv.rs/dpng/d/135-1355056_pickle-rick-png-pickle-rick-transparent-background-png.png');
+  background-image: url('../Images/yellowprey.gif');
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
+  background-size: 70px;
 }
