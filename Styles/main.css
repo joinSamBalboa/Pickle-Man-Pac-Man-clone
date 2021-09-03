@@ -186,7 +186,7 @@ h1{
   background-color: rgb(80, 76, 76); 
 }
 .seed{
-  background-image: url('https://static.wikia.nocookie.net/rickandmorty/images/e/e8/Speed_Mega_Seed.png/revision/latest?cb=20160909154201');
+  background-image: url('../Images/Speed_Mega_Seed.png');
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
