@@ -10,6 +10,8 @@ function init(){
   const overlayMessage = document.getElementById('start-game')
   const message = document.querySelector('p')
   const pressStart = document.getElementById('begin')
+  const music = document.getElementById('music')
+  const musicOn = document.getElementById('musicOn')
 
   // Variables
   const width = 13
@@ -66,13 +68,11 @@ function init(){
 
   
 
-
   // Executions
   // Create Grid
   function createGrid(startPosition){
     for (let i = 0; i < cellCount; i++){ 
       const cell = document.createElement('div') 
-      cell.innerText = i
       grid.appendChild(cell)
       cells.push(cell)
     }
@@ -244,6 +244,7 @@ function init(){
   // User Key movement
   function userKeyMovement(event){
     checkSeeds()
+    changeHighScore()
     removePickle(userCurrentPosition)
 
     const key = event.keyCode 
@@ -316,8 +317,8 @@ function init(){
       } else if (meetSauceRight){
         cells[userCurrentPosition + 1].classList.remove(sauceClassName)
         scoreSpan.innerText = Number(scoreSpan.innerText) + sauceScore
-        // killRedMode()
-        // killBlueMode()
+        killRedMode()
+        killBlueMode()
         killYellowMode()
       } else if (meetRedPreyRight){
         audio.src = "Sounds/I DON'T THINK SO - AUDIO FROM JAYUZUMI.COM.mp3"
@@ -379,8 +380,8 @@ function init(){
       } else if (meetSauceLeft){
         cells[userCurrentPosition - 1].classList.remove(sauceClassName)
         scoreSpan.innerText = Number(scoreSpan.innerText) + sauceScore
-        // killRedMode()
-        // killBlueMode()
+        killRedMode()
+        killBlueMode()
         killYellowMode()
       } else if (meetRedPreyLeft){
         clearInterval(redPreyInterval)
@@ -439,8 +440,8 @@ function init(){
       } else if (meetSauceTop){
         cells[userCurrentPosition - width].classList.remove(sauceClassName)
         scoreSpan.innerText = Number(scoreSpan.innerText) + sauceScore
-        // killRedMode()
-        // killBlueMode()
+        killRedMode()
+        killBlueMode()
         killYellowMode()
       } else if (meetRedPreyTop){
         clearInterval(redPreyInterval)
@@ -499,8 +500,8 @@ function init(){
       } else if (meetSauceBottom){
         cells[userCurrentPosition + width].classList.remove(sauceClassName)
         scoreSpan.innerText = Number(scoreSpan.innerText) + sauceScore
-        // killRedMode()
-        // killBlueMode()
+        killRedMode()
+        killBlueMode()
         killYellowMode()
       } else if (meetRedPreyBottom){
         clearInterval(redPreyInterval)
@@ -611,6 +612,8 @@ function init(){
     checkLives()
     removeRedRat(redCurrentPosition)
   
+    let movementOptions = []
+    
     const horizontalRight = cells[redCurrentPosition + 1].classList.contains('horizontal-border')
     const horizontalLeft = cells[redCurrentPosition - 1].classList.contains('horizontal-border')
     const verticalRight = cells[redCurrentPosition + 1].classList.contains('vertical-border')
@@ -629,159 +632,121 @@ function init(){
       
     // Add arguments to check for if userCurrentPosition is larger or smaller than rat position
     if (!horizontalRight && !horizontalLeft && !verticalRight && !verticalLeft && !horizontalTop && !verticalTop && !horizontalBottom && !verticalBottom){
-     if (userCurrentPosition % width <= redCurrentPosition % width){
-        if (meetuserRight){
-          removePickle(userCurrentPosition)
-          userCurrentPosition = userStartingPosition
-          addPickle(userStartingPosition)
-          userCurrentPosition++
-          livesSpan.innerText = Number(livesSpan.innerText) - 1
-        }
-        redCurrentPosition--
-      } else if (userCurrentPosition <= redCurrentPosition){
-        if (meetuserBottom){
-          removePickle(userCurrentPosition)
-          userCurrentPosition = userStartingPosition
-          addPickle(userStartingPosition)
-          userCurrentPosition += width
-          livesSpan.innerText = Number(livesSpan.innerText) - 1
-        }
-        redCurrentPosition -= width
-      } else if (userCurrentPosition >= redCurrentPosition){
-        if (meetuserTop){
-          // userCurrentPosition++ 
-          removePickle(userCurrentPosition)
-          userCurrentPosition = userStartingPosition
-          addPickle(userStartingPosition)
-          userCurrentPosition += width
-          livesSpan.innerText = Number(livesSpan.innerText) - 1
-        }
-        redCurrentPosition += width
-      }  else if (userCurrentPosition % width >= redCurrentPosition % width){
-        if (meetuserLeft){
-          removePickle(userCurrentPosition)
-          userCurrentPosition = userStartingPosition
-          addPickle(userStartingPosition)
-          livesSpan.innerText = Number(livesSpan.innerText) - 1
-        }
-        redCurrentPosition++
-      } 
+      if (meetuserRight){
+        removePickle(userCurrentPosition)
+        userCurrentPosition = userStartingPosition
+        addPickle(userStartingPosition)
+        userCurrentPosition++
+        livesSpan.innerText = Number(livesSpan.innerText) - 1
+      } else if (meetuserBottom){
+        removePickle(userCurrentPosition)
+        userCurrentPosition = userStartingPosition
+        addPickle(userStartingPosition)
+        userCurrentPosition += width
+        livesSpan.innerText = Number(livesSpan.innerText) - 1
+      } else if (meetuserTop){
+        removePickle(userCurrentPosition)
+        userCurrentPosition = userStartingPosition
+        addPickle(userStartingPosition)
+        userCurrentPosition += width
+        livesSpan.innerText = Number(livesSpan.innerText) - 1
+      } else if (meetuserLeft){
+        removePickle(userCurrentPosition)
+        userCurrentPosition = userStartingPosition
+        addPickle(userStartingPosition)
+        livesSpan.innerText = Number(livesSpan.innerText) - 1
+      }
+      movementOptions = [width, -width, 1, -1]
+      redCurrentPosition += movementOptions[Math.floor(Math.random() * movementOptions.length)]
     } else if (!horizontalRight && !horizontalLeft && !verticalRight && !verticalLeft && !horizontalTop && !verticalTop){
-      if (userCurrentPosition % width <= redCurrentPosition % width){
-        if (meetuserRight){
-          removePickle(userCurrentPosition)
-          userCurrentPosition = userStartingPosition
-          addPickle(userStartingPosition)
-          userCurrentPosition++
-          livesSpan.innerText = Number(livesSpan.innerText) - 1
-        }
-        redCurrentPosition--
-      } else if (userCurrentPosition % width >= redCurrentPosition % width){
-        if (meetuserLeft){
-          removePickle(userCurrentPosition)
-          userCurrentPosition = userStartingPosition
-          addPickle(userStartingPosition)
-          livesSpan.innerText = Number(livesSpan.innerText) - 1
-        }
-        redCurrentPosition++
-      } else if (userCurrentPosition <= redCurrentPosition){
-        if (meetuserBottom){
-          removePickle(userCurrentPosition)
-          userCurrentPosition = userStartingPosition
-          addPickle(userStartingPosition)
-          userCurrentPosition += width
-          livesSpan.innerText = Number(livesSpan.innerText) - 1
-        }
-        redCurrentPosition -= width
+      if (meetuserRight){
+        removePickle(userCurrentPosition)
+        userCurrentPosition = userStartingPosition
+        addPickle(userStartingPosition)
+        userCurrentPosition++
+        livesSpan.innerText = Number(livesSpan.innerText) - 1
+      } else if (meetuserLeft){
+        removePickle(userCurrentPosition)
+        userCurrentPosition = userStartingPosition
+        addPickle(userStartingPosition)
+        livesSpan.innerText = Number(livesSpan.innerText) - 1
+      } else if (meetuserBottom){
+        removePickle(userCurrentPosition)
+        userCurrentPosition = userStartingPosition
+        addPickle(userStartingPosition)
+        userCurrentPosition += width
+        livesSpan.innerText = Number(livesSpan.innerText) - 1
       }
+      movementOptions = [1, -1, -width]
+      redCurrentPosition += movementOptions[Math.floor(Math.random() * movementOptions.length)]
+    
     } else if (!horizontalBottom && !horizontalLeft && !verticalBottom && !verticalLeft && !horizontalTop && !verticalTop){
-      if (userCurrentPosition >= redCurrentPosition){
-        if (meetuserTop){
-          // userCurrentPosition++ 
-          removePickle(userCurrentPosition)
-          userCurrentPosition = userStartingPosition
-          addPickle(userStartingPosition)
-          userCurrentPosition += width
-          livesSpan.innerText = Number(livesSpan.innerText) - 1
-        }
-        redCurrentPosition += width
-      } else if (userCurrentPosition <= redCurrentPosition){
-        if (meetuserBottom){
-          removePickle(userCurrentPosition)
-          userCurrentPosition = userStartingPosition
-          addPickle(userStartingPosition)
-          userCurrentPosition += width
-          livesSpan.innerText = Number(livesSpan.innerText) - 1
-        }
-        redCurrentPosition -= width
-      } else if (userCurrentPosition % width <= redCurrentPosition % width){
-        if (meetuserRight){
-          removePickle(userCurrentPosition)
-          userCurrentPosition = userStartingPosition
-          addPickle(userStartingPosition)
-          userCurrentPosition++
-          livesSpan.innerText = Number(livesSpan.innerText) - 1
-        }
-        redCurrentPosition--
+      if (meetuserTop){
+        removePickle(userCurrentPosition)
+        userCurrentPosition = userStartingPosition
+        addPickle(userStartingPosition)
+        userCurrentPosition += width
+        livesSpan.innerText = Number(livesSpan.innerText) - 1
+      } else if (meetuserBottom){
+        removePickle(userCurrentPosition)
+        userCurrentPosition = userStartingPosition
+        addPickle(userStartingPosition)
+        userCurrentPosition += width
+        livesSpan.innerText = Number(livesSpan.innerText) - 1
+      } else if (meetuserRight){
+        removePickle(userCurrentPosition)
+        userCurrentPosition = userStartingPosition
+        addPickle(userStartingPosition)
+        userCurrentPosition++
+        livesSpan.innerText = Number(livesSpan.innerText) - 1
       }
+      movementOptions = [width, -1, -width]
+      redCurrentPosition += movementOptions[Math.floor(Math.random() * movementOptions.length)]
+      
     } else if (!horizontalRight && !horizontalBottom && !verticalRight && !verticalBottom && !horizontalTop && !verticalTop){
-      if (userCurrentPosition >= redCurrentPosition){
-        if (meetuserTop){
-          // userCurrentPosition++ 
-          removePickle(userCurrentPosition)
-          userCurrentPosition = userStartingPosition
-          addPickle(userStartingPosition)
-          userCurrentPosition += width
-          livesSpan.innerText = Number(livesSpan.innerText) - 1
-        }
-        redCurrentPosition += width
-      } else if (userCurrentPosition <= redCurrentPosition){
-        if (meetuserBottom){
-          removePickle(userCurrentPosition)
-          userCurrentPosition = userStartingPosition
-          addPickle(userStartingPosition)
-          userCurrentPosition += width
-          livesSpan.innerText = Number(livesSpan.innerText) - 1
-        }
-        redCurrentPosition -= width
-      } else if (userCurrentPosition % width >= redCurrentPosition % width){
-        if (meetuserLeft){
-          removePickle(userCurrentPosition)
-          userCurrentPosition = userStartingPosition
-          addPickle(userStartingPosition)
-          livesSpan.innerText = Number(livesSpan.innerText) - 1
-        }
-        redCurrentPosition++
+      if (meetuserTop){
+        removePickle(userCurrentPosition)
+        userCurrentPosition = userStartingPosition
+        addPickle(userStartingPosition)
+        userCurrentPosition += width
+        livesSpan.innerText = Number(livesSpan.innerText) - 1
+      } else if (meetuserBottom){
+        removePickle(userCurrentPosition)
+        userCurrentPosition = userStartingPosition
+        addPickle(userStartingPosition)
+        userCurrentPosition += width
+        livesSpan.innerText = Number(livesSpan.innerText) - 1
+      } else if (meetuserLeft){
+        removePickle(userCurrentPosition)
+        userCurrentPosition = userStartingPosition
+        addPickle(userStartingPosition)
+        livesSpan.innerText = Number(livesSpan.innerText) - 1
       }
+      movementOptions = [width, 1, -width]
+      redCurrentPosition += movementOptions[Math.floor(Math.random() * movementOptions.length)]
+      
     } else if (!horizontalRight && !horizontalBottom && !verticalRight && !verticalBottom && !horizontalLeft && !verticalLeft){
-      if (userCurrentPosition % width <= redCurrentPosition % width){
-        if (meetuserRight){
-          removePickle(userCurrentPosition)
-          userCurrentPosition = userStartingPosition
-          addPickle(userStartingPosition)
-          userCurrentPosition++
-          livesSpan.innerText = Number(livesSpan.innerText) - 1
-        }
-        redCurrentPosition--
-      } else if (userCurrentPosition % width >= redCurrentPosition % width){
-        if (meetuserLeft){
-          removePickle(userCurrentPosition)
-          userCurrentPosition = userStartingPosition
-          addPickle(userStartingPosition)
-          livesSpan.innerText = Number(livesSpan.innerText) - 1
-        }
-        redCurrentPosition++
-      } else if (userCurrentPosition >= redCurrentPosition){
-        if (meetuserTop){
-          // userCurrentPosition++ 
-          removePickle(userCurrentPosition)
-          userCurrentPosition = userStartingPosition
-          addPickle(userStartingPosition)
-          userCurrentPosition += width
-          livesSpan.innerText = Number(livesSpan.innerText) - 1
-        }
-        redCurrentPosition += width
+      if (meetuserRight){
+        removePickle(userCurrentPosition)
+        userCurrentPosition = userStartingPosition
+        addPickle(userStartingPosition)
+        userCurrentPosition++
+        livesSpan.innerText = Number(livesSpan.innerText) - 1
+      } else if (meetuserLeft){
+        removePickle(userCurrentPosition)
+        userCurrentPosition = userStartingPosition
+        addPickle(userStartingPosition)
+        livesSpan.innerText = Number(livesSpan.innerText) - 1
+      } else if (meetuserTop){
+        removePickle(userCurrentPosition)
+        userCurrentPosition = userStartingPosition
+        addPickle(userStartingPosition)
+        userCurrentPosition += width
+        livesSpan.innerText = Number(livesSpan.innerText) - 1
       }
+      movementOptions = [width, -1, 1]
+      redCurrentPosition += movementOptions[Math.floor(Math.random() * movementOptions.length)]
+      
     } else if (!horizontalRight && !horizontalLeft && !verticalRight && !verticalLeft){
       if (userCurrentPosition % width <= redCurrentPosition % width){
         if (meetuserRight){
@@ -804,7 +769,6 @@ function init(){
     } else if (!horizontalTop && !horizontalBottom && !verticalTop && !verticalBottom){
       if (userCurrentPosition >= redCurrentPosition){
         if (meetuserTop){
-          // userCurrentPosition++ 
           removePickle(userCurrentPosition)
           userCurrentPosition = userStartingPosition
           addPickle(userStartingPosition)
@@ -843,10 +807,18 @@ function init(){
       }
     } else if (!horizontalRight && !horizontalBottom && !verticalRight && !verticalBottom){
       if (userCurrentPosition % width >= redCurrentPosition % width){
+        if (meetuserLeft){
+
+          removePickle(userCurrentPosition)
+          userCurrentPosition = userStartingPosition
+          addPickle(userStartingPosition)
+          userCurrentPosition += width
+          livesSpan.innerText = Number(livesSpan.innerText) - 1
+        }
         redCurrentPosition++
       } else if (userCurrentPosition >= redCurrentPosition){
         if (meetuserTop){
-          // userCurrentPosition++ 
+
           removePickle(userCurrentPosition)
           userCurrentPosition = userStartingPosition
           addPickle(userStartingPosition)
@@ -856,7 +828,7 @@ function init(){
         redCurrentPosition += width
       }
     } else if (!horizontalTop && !horizontalLeft && !verticalTop && !verticalLeft){
-      if (userCurrentPosition <= redCurrentPosition - 5){
+      if (userCurrentPosition <= redCurrentPosition){
         if (meetuserBottom){
           removePickle(userCurrentPosition)
           userCurrentPosition = userStartingPosition
@@ -887,7 +859,7 @@ function init(){
         redCurrentPosition--
       } else if (userCurrentPosition >= redCurrentPosition){
         if (meetuserTop){
-          // userCurrentPosition++ 
+
           removePickle(userCurrentPosition)
           userCurrentPosition = userStartingPosition
           addPickle(userStartingPosition)
@@ -915,7 +887,6 @@ function init(){
       redCurrentPosition -= width
     } else if (!horizontalBottom && !verticalBottom){
       if (meetuserTop){
-        // userCurrentPosition++ 
         removePickle(userCurrentPosition)
         userCurrentPosition = userStartingPosition
         addPickle(userStartingPosition)
@@ -981,7 +952,7 @@ function init(){
         blueCurrentPosition--
       } else if (userCurrentPosition >= blueCurrentPosition){
         if (meetuserTop){
-          // userCurrentPosition++ 
+
           removePickle(userCurrentPosition)
           userCurrentPosition = userStartingPosition
           addPickle(userStartingPosition)
@@ -1029,7 +1000,7 @@ function init(){
     } else if (!horizontalBottom && !horizontalLeft && !verticalBottom && !verticalLeft && !horizontalTop && !verticalTop){
       if (userCurrentPosition >= blueCurrentPosition){
         if (meetuserTop){
-          // userCurrentPosition++ 
+
           removePickle(userCurrentPosition)
           userCurrentPosition = userStartingPosition
           addPickle(userStartingPosition)
@@ -1059,7 +1030,7 @@ function init(){
     } else if (!horizontalRight && !horizontalBottom && !verticalRight && !verticalBottom && !horizontalTop && !verticalTop){
       if (userCurrentPosition >= blueCurrentPosition){
         if (meetuserTop){
-          // userCurrentPosition++ 
+
           removePickle(userCurrentPosition)
           userCurrentPosition = userStartingPosition
           addPickle(userStartingPosition)
@@ -1105,7 +1076,6 @@ function init(){
         blueCurrentPosition++
       } else if (userCurrentPosition >= blueCurrentPosition){
         if (meetuserTop){
-          // userCurrentPosition++ 
           removePickle(userCurrentPosition)
           userCurrentPosition = userStartingPosition
           addPickle(userStartingPosition)
@@ -1136,7 +1106,7 @@ function init(){
     } else if (!horizontalTop && !horizontalBottom && !verticalTop && !verticalBottom){
       if (userCurrentPosition >= blueCurrentPosition){
         if (meetuserTop){
-          // userCurrentPosition++ 
+
           removePickle(userCurrentPosition)
           userCurrentPosition = userStartingPosition
           addPickle(userStartingPosition)
@@ -1178,7 +1148,7 @@ function init(){
         blueCurrentPosition++
       } else if (userCurrentPosition >= blueCurrentPosition){
         if (meetuserTop){
-          // userCurrentPosition++ 
+
           removePickle(userCurrentPosition)
           userCurrentPosition = userStartingPosition
           addPickle(userStartingPosition)
@@ -1219,7 +1189,7 @@ function init(){
         blueCurrentPosition--
       } else if (userCurrentPosition >= blueCurrentPosition){
         if (meetuserTop){
-          // userCurrentPosition++ 
+
           removePickle(userCurrentPosition)
           userCurrentPosition = userStartingPosition
           addPickle(userStartingPosition)
@@ -1247,7 +1217,6 @@ function init(){
       blueCurrentPosition -= width
     } else if (!horizontalBottom && !verticalBottom){
       if (meetuserTop){
-        // userCurrentPosition++ 
         removePickle(userCurrentPosition)
         userCurrentPosition = userStartingPosition
         addPickle(userStartingPosition)
@@ -1267,7 +1236,7 @@ function init(){
     }
 
   
-    checkLives()
+    
     addBlueRat(blueCurrentPosition)  
   }
 
@@ -1313,7 +1282,7 @@ function init(){
         yellowCurrentPosition--
       } else if (userCurrentPosition >= yellowCurrentPosition){
         if (meetuserTop){
-          // userCurrentPosition++ 
+
           removePickle(userCurrentPosition)
           userCurrentPosition = userStartingPosition
           addPickle(userStartingPosition)
@@ -1361,7 +1330,7 @@ function init(){
     } else if (!horizontalBottom && !horizontalLeft && !verticalBottom && !verticalLeft && !horizontalTop && !verticalTop){
       if (userCurrentPosition >= yellowCurrentPosition){
         if (meetuserTop){
-          // userCurrentPosition++ 
+
           removePickle(userCurrentPosition)
           userCurrentPosition = userStartingPosition
           addPickle(userStartingPosition)
@@ -1391,7 +1360,7 @@ function init(){
     } else if (!horizontalRight && !horizontalBottom && !verticalRight && !verticalBottom && !horizontalTop && !verticalTop){
       if (userCurrentPosition >= yellowCurrentPosition){
         if (meetuserTop){
-          // userCurrentPosition++ 
+
           removePickle(userCurrentPosition)
           userCurrentPosition = userStartingPosition
           addPickle(userStartingPosition)
@@ -1437,7 +1406,7 @@ function init(){
         yellowCurrentPosition++
       } else if (userCurrentPosition >= yellowCurrentPosition){
         if (meetuserTop){
-          // userCurrentPosition++ 
+
           removePickle(userCurrentPosition)
           userCurrentPosition = userStartingPosition
           addPickle(userStartingPosition)
@@ -1468,7 +1437,7 @@ function init(){
     } else if (!horizontalTop && !horizontalBottom && !verticalTop && !verticalBottom){
       if (userCurrentPosition >= yellowCurrentPosition){
         if (meetuserTop){
-          // userCurrentPosition++ 
+
           removePickle(userCurrentPosition)
           userCurrentPosition = userStartingPosition
           addPickle(userStartingPosition)
@@ -1510,7 +1479,7 @@ function init(){
         yellowCurrentPosition++
       } else if (userCurrentPosition >= yellowCurrentPosition){
         if (meetuserTop){
-          // userCurrentPosition++ 
+
           removePickle(userCurrentPosition)
           userCurrentPosition = userStartingPosition
           addPickle(userStartingPosition)
@@ -1551,7 +1520,7 @@ function init(){
         yellowCurrentPosition--
       } else if (userCurrentPosition >= yellowCurrentPosition){
         if (meetuserTop){
-          // userCurrentPosition++ 
+
           removePickle(userCurrentPosition)
           userCurrentPosition = userStartingPosition
           addPickle(userStartingPosition)
@@ -1579,7 +1548,6 @@ function init(){
       yellowCurrentPosition -= width
     } else if (!horizontalBottom && !verticalBottom){
       if (meetuserTop){
-        // userCurrentPosition++ 
         removePickle(userCurrentPosition)
         userCurrentPosition = userStartingPosition
         addPickle(userStartingPosition)
@@ -1626,14 +1594,14 @@ function init(){
     const meetuserBottom = cells[redPreyCurrentPosition - width].classList.contains('pickle')
     const meetuserTop = cells[redPreyCurrentPosition + width].classList.contains('pickle')
       
-    // Add arguments to check for if userCurrentPosition is larger or smaller than rat position
+
     if (randomMovement === 1 && redPreyCurrentPosition % width !== width - 1 && !horizontalRight && !verticalRight){ //&& userCurrentPosition % width > redPreyCurrentPosition % width//
       if (meetuserLeft){
         removeRedPrey(redPreyCurrentPosition)
         addRedRat(redStartingPosition)
         scoreSpan.innerText = Number(scoreSpan.innerText) + ratPreyScore
       } 
-      redPreyCurrentPosition++
+      redPreyCurrentPosition += randomMovement
       
     } else if (randomMovement === -1 && redPreyCurrentPosition % width !== 0 && !horizontalLeft && !verticalLeft){ //&& userCurrentPosition % width < redPreyCurrentPosition % width
       if (meetuserRight){
@@ -1641,23 +1609,22 @@ function init(){
         addRedRat(redStartingPosition)
         scoreSpan.innerText = Number(scoreSpan.innerText) + ratPreyScore
       }
-      redPreyCurrentPosition--
+      redPreyCurrentPosition += randomMovement
     } else if (randomMovement === -width && redPreyCurrentPosition >= width && !horizontalTop && !verticalTop){ // && userCurrentPosition < redPreyCurrentPosition
       if (meetuserBottom){
         removeRedPrey(redPreyCurrentPosition)
         addRedRat(redStartingPosition)
         scoreSpan.innerText = Number(scoreSpan.innerText) + ratPreyScore
       }
-      redPreyCurrentPosition -= width
+      redPreyCurrentPosition += randomMovement
     } else if (randomMovement === width && redPreyCurrentPosition + width <= cellCount - 1 && !horizontalBottom && !verticalBottom){ //&& userCurrentPosition > redPreyCurrentPosition
       if (meetuserTop){
         removeRedPrey(redPreyCurrentPosition)
         addRedRat(redStartingPosition)
         scoreSpan.innerText = Number(scoreSpan.innerText) + ratPreyScore
       }
-      redPreyCurrentPosition += width
-    } 
-  
+      redPreyCurrentPosition += randomMovement
+    }
     addRedPrey(redPreyCurrentPosition)  
   }
 
@@ -1796,7 +1763,7 @@ function init(){
   function moveYellowRat (){
     yellowInterval = setInterval(() => {
       yellowRandomMovement()
-    }, 1000)
+    }, 3000)
   }
 
   function moveRedPrey (){
@@ -1810,7 +1777,7 @@ function init(){
       addRedRat(redPreyCurrentPosition)
       redCurrentPosition = redPreyCurrentPosition
       moveRedRat()
-    }, 5000)
+    }, 2000)
   }
 
   function moveBluePrey (){
@@ -1824,7 +1791,7 @@ function init(){
       addBlueRat(bluePreyCurrentPosition)
       blueCurrentPosition = bluePreyCurrentPosition
       moveBlueRat()
-    }, 5000)
+    }, 2000)
   }
 
   function moveYellowPrey (){
@@ -1838,7 +1805,7 @@ function init(){
       addYellowRat(yellowPreyCurrentPosition)
       yellowCurrentPosition = yellowPreyCurrentPosition
       moveYellowRat()
-    }, 5000)
+    }, 2000)
   }
   
   // Allow rats to become killed function
@@ -1878,9 +1845,9 @@ function init(){
   function startGame(){
     audio.src = "Sounds/I'M A PICKLE - AUDIO FROM JAYUZUMI.COM.mp3"
     audio.play()
-    moveYellowRat()   
-    // moveRedRat()
-    // moveBlueRat()
+    moveRedRat()
+    moveBlueRat()
+    moveYellowRat() 
     pressStart.innerHTML = ''
   }
 
@@ -1889,11 +1856,10 @@ function init(){
     if (livesSpan.innerHTML === '0'){
       audio.src = "Sounds/MAN I MISS HAVING HANDS - AUDIO FROM JAYUZUMI.COM.mp3"
       audio.play()
-      window.alert('You Lost')
       clearInterval(redInterval)
       clearInterval(blueInterval)
       clearInterval(yellowInterval)
-      document.location.reload()
+      loseEndMessage()
     }
   } 
   
@@ -1921,7 +1887,7 @@ function init(){
   
   function winEndMessage(){
     overlayMessage.classList.add('win-game')
-    message.innerHTML = 'Wubba Lubba Dub Dub, thanks for saving my life, it didnt really matter'
+    message.innerHTML = `Wow you got ${scoreSpan.innerText} points for saving my life, what a waste of time`
     setTimeout(() => {
       document.location.reload()
     }, 5000)
@@ -1930,17 +1896,28 @@ function init(){
   }
 
   function loseEndMessage(){
-
+    overlayMessage.classList.add('lose-game')
+    setTimeout(() => {
+      document.location.reload()
+    }, 5000)
   }
   
+  function pauseMusic(){
+    themeSong.pause()
+  }
+
+  function playMusic(){
+    themeSong.play()
+  }
+
   createGrid(userStartingPosition)
   createHorizontalPath()
   createVerticalPath()
-  // addRedRat(redCurrentPosition)
-  // addBlueRat(blueCurrentPosition)
-  // addYellowRat(yellowCurrentPosition)
+  addRedRat(redCurrentPosition)
+  addBlueRat(blueCurrentPosition)
+  addYellowRat(yellowCurrentPosition)
   
-  // addSauce()
+  addSauce()
   addSeed()
   
 
@@ -1950,6 +1927,8 @@ function init(){
   saveRickButton.addEventListener('click', closeStartMessage)
   start.addEventListener('click', startGame)
   document.addEventListener('keydown', userKeyMovement)
+  music.addEventListener('click', pauseMusic)
+  musicOn.addEventListener('click', playMusic)
   
 
   
