@@ -28,16 +28,6 @@ h1{
   animation: glow 1s ease-in-out infinite alternate;
 }
 
-@-webkit-keyframes glow {
-  from {
-    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px rgb(99, 194, 21), 0 0 40px rgb(99, 194, 21), 0 0 50px rgb(99, 194, 21), 0 0 60px rgb(99, 194, 21), 0 0 70px rgb(99, 194, 21);
-  }
-  to {
-    text-shadow: 0 0 20px #fff, 0 0 30px #3dac1e, 0 0 40px #3dac1e, 0 0 50px #3dac1e, 0 0 60px #3dac1e, 0 0 70px #3dac1e, 0 0 80px #3dac1e;
-  }
-}
-
-
 .top{
   display: flex;
   justify-content: space-between;
@@ -56,14 +46,24 @@ h1{
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
+  cursor: pointer;
+  color: white;
+  font-size: 20px;
 }
 
 .grid-wrapper{
   height: 60vh;
   display: flex;
   justify-content: center;
-  align-items:initial;
+  align-items:center;
+  flex-direction: column;
   border-radius: 50%;
+}
+
+.grid-wrapper p{
+  font-size: 20px;
+  animation: blinker 1s linear infinite;
+  margin: 0;
 }
 
 .grid{
@@ -81,9 +81,69 @@ h1{
 .grid div{
   width: 7.69%;
   height: 7.69%;
-  border: 1px solid rgba(0,0,0,0.2);
+  /* border: 1px solid rgba(0,0,0,0.2); */
 
 }
+.start-game{
+  position: absolute;
+  top: 0;
+  left: 0;
+  height:100%;
+  width:100%;
+  cursor: not-allowed;
+  opacity: 1;
+  background:white url('../Images/Intro.gif') center no-repeat;
+  background-size: 950px;
+  z-index: 1;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: column;
+  
+}
+.start-game p{
+  width: 50%;
+  font-size: 40px;
+  text-shadow: 0 0 30px #3dac1e;
+}
+
+.start-game button{
+  color: white;
+  width: 100px;
+  height: 100px;
+  background-image: url('https://i.ytimg.com/vi/ITkcUGKc9tw/maxresdefault.jpg');
+  border-radius: 50%;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  font-family: 'get_schwiftyregular';
+  background-size: 175px;
+  cursor: pointer;
+  font-size: 20px;
+}
+.win-game{
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  cursor: not-allowed;
+  opacity: 1;
+  background: white url('../Images/Outro.gif') center no-repeat;
+  background-size: 950px;
+  z-index: 1;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: column;
+  
+}
+.win-game p{
+  width: 50%;
+  font-size: 40px;
+  text-shadow: 0 0 30px #3dac1e;
+}
+
 .horizontal-border{
   background-image: url('../Images/border1.jpg');
   background-size: contain;
@@ -169,4 +229,17 @@ h1{
   background-position: center;
   background-repeat: no-repeat;
   background-size: 70px;
+}
+
+@keyframes blinker {  
+  50% { opacity: 0; }
+}
+
+@keyframes glow {
+  from {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px rgb(99, 194, 21), 0 0 40px rgb(99, 194, 21), 0 0 50px rgb(99, 194, 21), 0 0 60px rgb(99, 194, 21), 0 0 70px rgb(99, 194, 21);
+  }
+  to {
+    text-shadow: 0 0 20px #fff, 0 0 30px #3dac1e, 0 0 40px #3dac1e, 0 0 50px #3dac1e, 0 0 60px #3dac1e, 0 0 70px #3dac1e, 0 0 80px #3dac1e;
+  }
 }

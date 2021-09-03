@@ -5,6 +5,11 @@ function init(){
   const scoreSpan = document.getElementById('score')
   const livesSpan = document.getElementById('lives')
   const audio = document.getElementById('audio')
+  const themeSong = document.getElementById('theme')
+  const saveRickButton = document.getElementById('save-rick')
+  const overlayMessage = document.getElementById('start-game')
+  const message = document.querySelector('p')
+  const pressStart = document.getElementById('begin')
 
   // Variables
   const width = 13
@@ -12,6 +17,7 @@ function init(){
   const cells = []
 
   const seedScore = 10
+  let seedsHeld = 0
   const sauceScore = 20
   const ratPreyScore = 50
 
@@ -62,10 +68,6 @@ function init(){
 
 
   // Executions
-
-  
-
-
   // Create Grid
   function createGrid(startPosition){
     for (let i = 0; i < cellCount; i++){ 
@@ -156,7 +158,7 @@ function init(){
     }
   }
   
-// Add szechuan sauce
+  // Add szechuan sauce
   function addSauce(){
     for (let i = 0; i < cellCount; i++){
       if (i === 14){
@@ -199,7 +201,7 @@ function init(){
         cells[i].classList.add(seedClassName) 
       } else if (i === 75){
         cells[i].classList.add(seedClassName) 
-      } else if (i >= 87 && i <=90){
+      } else if (i >= 87 && i <= 90){
         cells[i].classList.add(seedClassName) 
       } else if (i === 93){
         cells[i].classList.add(seedClassName) 
@@ -223,7 +225,7 @@ function init(){
         cells[i].classList.add(seedClassName) 
       } else if (i === 141){
         cells[i].classList.add(seedClassName) 
-      } else if (i >= 145 && i <= 154){
+      } else if (i >= 145 && i <= 153){
         cells[i].classList.add(seedClassName) 
       }
     }
@@ -241,7 +243,7 @@ function init(){
 
   // User Key movement
   function userKeyMovement(event){
-  // Remove existing pickle
+    checkSeeds()
     removePickle(userCurrentPosition)
 
     const key = event.keyCode 
@@ -301,10 +303,6 @@ function init(){
     const meetSauceBottom = cells[userCurrentPosition + width].classList.contains('sauce')
     
     if (key === right && userCurrentPosition % width !== width - 1 && !horizontalRight && !verticalRight){
-      // check lives
-      // When seeds and sauce = 0, game won
-      // Display score at the end of the game
-      // If lives 0 before seeds and sauce = 0, game over
       if (meetRedRight){
         removePickle(userCurrentPosition)
         userCurrentPosition = userStartingPosition
@@ -314,13 +312,16 @@ function init(){
       } else if (meetSeedRight){
         cells[userCurrentPosition + 1].classList.remove(seedClassName)
         scoreSpan.innerText = Number(scoreSpan.innerText) + seedScore
+        seedsHeld += 1
       } else if (meetSauceRight){
         cells[userCurrentPosition + 1].classList.remove(sauceClassName)
         scoreSpan.innerText = Number(scoreSpan.innerText) + sauceScore
-        killRedMode()
+        // killRedMode()
         // killBlueMode()
-        // killYellowMode()
+        killYellowMode()
       } else if (meetRedPreyRight){
+        audio.src = "Sounds/I DON'T THINK SO - AUDIO FROM JAYUZUMI.COM.mp3"
+        audio.play()
         clearInterval(redPreyInterval)
         clearTimeout(redPreyTimeout)
         removeRedPrey(redPreyCurrentPosition)
@@ -335,6 +336,8 @@ function init(){
         userCurrentPosition--
         livesSpan.innerText = Number(livesSpan.innerText) - 1
       } else if (meetBluePreyRight){
+        audio.src = "Sounds/BOOM - AUDIO FROM JAYUZUMI.COM.mp3"
+        audio.play()
         clearInterval(bluePreyInterval)
         clearTimeout(bluePreyTimeout)
         removeBluePrey(bluePreyCurrentPosition)
@@ -349,6 +352,8 @@ function init(){
         userCurrentPosition--
         livesSpan.innerText = Number(livesSpan.innerText) - 1
       } else if (meetYellowPreyRight){
+        audio.src = "Sounds/SEE YOU SOON - AUDIO FROM JAYUZUMI.COM.mp3"
+        audio.play()
         clearInterval(yellowPreyInterval)
         clearTimeout(yellowPreyTimeout)
         removeYellowPrey(yellowPreyCurrentPosition)
@@ -370,12 +375,13 @@ function init(){
       } else if (meetSeedLeft){
         cells[userCurrentPosition - 1].classList.remove(seedClassName)
         scoreSpan.innerText = Number(scoreSpan.innerText) + seedScore
+        seedsHeld += 1
       } else if (meetSauceLeft){
         cells[userCurrentPosition - 1].classList.remove(sauceClassName)
         scoreSpan.innerText = Number(scoreSpan.innerText) + sauceScore
-        killRedMode()
+        // killRedMode()
         // killBlueMode()
-        // killYellowMode()
+        killYellowMode()
       } else if (meetRedPreyLeft){
         clearInterval(redPreyInterval)
         clearTimeout(redPreyTimeout)
@@ -383,6 +389,8 @@ function init(){
         redCurrentPosition = redStartingPosition
         addRedRat(redCurrentPosition)
         moveRedRat()
+        audio.src = "Sounds/I DON'T THINK SO - AUDIO FROM JAYUZUMI.COM.mp3"
+        audio.play()
         scoreSpan.innerText = Number(scoreSpan.innerText) + ratPreyScore
       } else if (meetBlueLeft){
         removePickle(userCurrentPosition)
@@ -397,6 +405,8 @@ function init(){
         blueCurrentPosition = blueStartingPosition
         addBlueRat(blueCurrentPosition)
         moveBlueRat()
+        audio.src = "Sounds/BOOM - AUDIO FROM JAYUZUMI.COM.mp3"
+        audio.play()
       } else if (meetYellowLeft){
         removePickle(userCurrentPosition)
         userCurrentPosition = userStartingPosition
@@ -411,6 +421,8 @@ function init(){
         addYellowRat(yellowCurrentPosition)
         moveYellowRat()
         scoreSpan.innerText = Number(scoreSpan.innerText) + ratPreyScore
+        audio.src = "Sounds/SEE YOU SOON - AUDIO FROM JAYUZUMI.COM.mp3"
+        audio.play()
       }
       userCurrentPosition--
     } else if (key === up && userCurrentPosition >= width && !horizontalTop && !verticalTop){
@@ -423,12 +435,13 @@ function init(){
       } else if (meetSeedTop){
         cells[userCurrentPosition - width].classList.remove(seedClassName)
         scoreSpan.innerText = Number(scoreSpan.innerText) + seedScore
+        seedsHeld += 1
       } else if (meetSauceTop){
         cells[userCurrentPosition - width].classList.remove(sauceClassName)
         scoreSpan.innerText = Number(scoreSpan.innerText) + sauceScore
-        killRedMode()
+        // killRedMode()
         // killBlueMode()
-        // killYellowMode()
+        killYellowMode()
       } else if (meetRedPreyTop){
         clearInterval(redPreyInterval)
         clearTimeout(redPreyTimeout)
@@ -436,6 +449,8 @@ function init(){
         redCurrentPosition = redStartingPosition
         addRedRat(redCurrentPosition)
         moveRedRat()
+        audio.src = "Sounds/I DON'T THINK SO - AUDIO FROM JAYUZUMI.COM.mp3"
+        audio.play()
         scoreSpan.innerText = Number(scoreSpan.innerText) + ratPreyScore
       } else if (meetBlueTop){
         removePickle(userCurrentPosition)
@@ -450,6 +465,8 @@ function init(){
         blueCurrentPosition = blueStartingPosition
         addBlueRat(blueCurrentPosition)
         moveBlueRat()
+        audio.src = "Sounds/BOOM - AUDIO FROM JAYUZUMI.COM.mp3"
+        audio.play()
       } else if (meetYellowTop){
         removePickle(userCurrentPosition)
         userCurrentPosition = userStartingPosition
@@ -464,6 +481,8 @@ function init(){
         addYellowRat(yellowCurrentPosition)
         moveYellowRat()
         scoreSpan.innerText = Number(scoreSpan.innerText) + ratPreyScore
+        audio.src = "Sounds/SEE YOU SOON - AUDIO FROM JAYUZUMI.COM.mp3"
+        audio.play()
       }
       userCurrentPosition -= width
     } else if (key === down && userCurrentPosition + width <= cellCount - 1 && !horizontalBottom && !verticalBottom){
@@ -476,12 +495,13 @@ function init(){
       } else if (meetSeedBottom){
         cells[userCurrentPosition + width].classList.remove(seedClassName)
         scoreSpan.innerText = Number(scoreSpan.innerText) + seedScore
+        seedsHeld += 1
       } else if (meetSauceBottom){
         cells[userCurrentPosition + width].classList.remove(sauceClassName)
         scoreSpan.innerText = Number(scoreSpan.innerText) + sauceScore
-        killRedMode()
+        // killRedMode()
         // killBlueMode()
-        // killYellowMode()
+        killYellowMode()
       } else if (meetRedPreyBottom){
         clearInterval(redPreyInterval)
         clearTimeout(redPreyTimeout)
@@ -489,6 +509,8 @@ function init(){
         redCurrentPosition = redStartingPosition
         addRedRat(redCurrentPosition)
         moveRedRat()
+        audio.src = "Sounds/I DON'T THINK SO - AUDIO FROM JAYUZUMI.COM.mp3"
+        audio.play()
         scoreSpan.innerText = Number(scoreSpan.innerText) + ratPreyScore
       } else if (meetBlueBottom){
         removePickle(userCurrentPosition)
@@ -503,6 +525,8 @@ function init(){
         blueCurrentPosition = blueStartingPosition
         addBlueRat(blueCurrentPosition)
         moveBlueRat()
+        audio.src = "Sounds/BOOM - AUDIO FROM JAYUZUMI.COM.mp3"
+        audio.play()
       } else if (meetYellowBottom){
         removePickle(userCurrentPosition)
         userCurrentPosition = userStartingPosition
@@ -516,11 +540,13 @@ function init(){
         yellowCurrentPosition = yellowStartingPosition
         addYellowRat(yellowCurrentPosition)
         moveYellowRat()
+        audio.src = "Sounds/SEE YOU SOON - AUDIO FROM JAYUZUMI.COM.mp3"
+        audio.play()
         scoreSpan.innerText = Number(scoreSpan.innerText) + ratPreyScore
       }
       userCurrentPosition += width
     
-  }
+    }
     addPickle(userCurrentPosition)
     
   }
@@ -582,7 +608,7 @@ function init(){
   // Red rat random Movement
   
   function redRandomMovement(){
-    
+    checkLives()
     removeRedRat(redCurrentPosition)
   
     const horizontalRight = cells[redCurrentPosition + 1].classList.contains('horizontal-border')
@@ -599,19 +625,11 @@ function init(){
     const meetuserRight = cells[redCurrentPosition - 1].classList.contains('pickle')
     const meetuserBottom = cells[redCurrentPosition - width].classList.contains('pickle')
     const meetuserTop = cells[redCurrentPosition + width].classList.contains('pickle')
+
       
     // Add arguments to check for if userCurrentPosition is larger or smaller than rat position
     if (!horizontalRight && !horizontalLeft && !verticalRight && !verticalLeft && !horizontalTop && !verticalTop && !horizontalBottom && !verticalBottom){
-      if (userCurrentPosition <= redCurrentPosition){
-        if (meetuserBottom){
-          removePickle(userCurrentPosition)
-          userCurrentPosition = userStartingPosition
-          addPickle(userStartingPosition)
-          userCurrentPosition += width
-          livesSpan.innerText = Number(livesSpan.innerText) - 1
-        }
-        redCurrentPosition -= width
-      } else if (userCurrentPosition % width <= redCurrentPosition % width){
+     if (userCurrentPosition % width <= redCurrentPosition % width){
         if (meetuserRight){
           removePickle(userCurrentPosition)
           userCurrentPosition = userStartingPosition
@@ -620,6 +638,15 @@ function init(){
           livesSpan.innerText = Number(livesSpan.innerText) - 1
         }
         redCurrentPosition--
+      } else if (userCurrentPosition <= redCurrentPosition){
+        if (meetuserBottom){
+          removePickle(userCurrentPosition)
+          userCurrentPosition = userStartingPosition
+          addPickle(userStartingPosition)
+          userCurrentPosition += width
+          livesSpan.innerText = Number(livesSpan.innerText) - 1
+        }
+        redCurrentPosition -= width
       } else if (userCurrentPosition >= redCurrentPosition){
         if (meetuserTop){
           // userCurrentPosition++ 
@@ -908,13 +935,13 @@ function init(){
     }
 
   
-  
+    
     addRedRat(redCurrentPosition)  
   }
 
   // Blue rat random movement
   function blueRandomMovement(){
-    
+    checkLives()
     removeBlueRat(blueCurrentPosition)
   
     const horizontalRight = cells[blueCurrentPosition + 1].classList.contains('horizontal-border')
@@ -1240,13 +1267,13 @@ function init(){
     }
 
   
-  
+    checkLives()
     addBlueRat(blueCurrentPosition)  
   }
 
   // Yellow rat random movement
   function yellowRandomMovement(){
-    
+    checkLives()
     removeYellowRat(yellowCurrentPosition)
   
     const horizontalRight = cells[yellowCurrentPosition + 1].classList.contains('horizontal-border')
@@ -1572,13 +1599,13 @@ function init(){
     }
 
   
-  
+    
     addYellowRat(yellowCurrentPosition)  
   }
 
   // red prey movement
   function redPreyMovement(){
-    
+    checkLives()
     removeRedPrey(redPreyCurrentPosition)
   
     const movementOptions = [1, -1, width, -width]
@@ -1636,7 +1663,7 @@ function init(){
 
   // blue prey movement
   function bluePreyMovement(){
-    
+    checkLives()
     removeBluePrey(bluePreyCurrentPosition)
   
     const movementOptions = [1, -1, width, -width]
@@ -1694,7 +1721,7 @@ function init(){
 
   // yellow prey movement
   function yellowPreyMovement(){
-    
+    checkLives()
     removeYellowPrey(yellowPreyCurrentPosition)
   
     const movementOptions = [1, -1, width, -width]
@@ -1783,7 +1810,7 @@ function init(){
       addRedRat(redPreyCurrentPosition)
       redCurrentPosition = redPreyCurrentPosition
       moveRedRat()
-    }, 3000)
+    }, 5000)
   }
 
   function moveBluePrey (){
@@ -1797,7 +1824,7 @@ function init(){
       addBlueRat(bluePreyCurrentPosition)
       blueCurrentPosition = bluePreyCurrentPosition
       moveBlueRat()
-    }, 3000)
+    }, 5000)
   }
 
   function moveYellowPrey (){
@@ -1805,15 +1832,15 @@ function init(){
       yellowPreyMovement()
     }, 1000)
 
-    setTimeout(()=> {
-      yellowPreyTimeout = clearInterval(yellowPreyInterval)
+    yellowPreyTimeout = setTimeout(()=> {
+      clearInterval(yellowPreyInterval)
       removeYellowPrey(yellowPreyCurrentPosition)
       addYellowRat(yellowPreyCurrentPosition)
       yellowCurrentPosition = yellowPreyCurrentPosition
       moveYellowRat()
-    }, 3000)
+    }, 5000)
   }
-
+  
   // Allow rats to become killed function
   function killRedMode(){
     clearInterval(redInterval)  
@@ -1821,6 +1848,8 @@ function init(){
     addRedPrey(redCurrentPosition)
     redPreyCurrentPosition = redCurrentPosition
     moveRedPrey()
+    audio.src = 'Sounds/YES - AUDIO FROM JAYUZUMI.COM.mp3'
+    audio.play()
   }
 
   function killBlueMode(){
@@ -1829,6 +1858,8 @@ function init(){
     addBluePrey(blueCurrentPosition)
     bluePreyCurrentPosition = blueCurrentPosition
     moveBluePrey()
+    audio.src = 'Sounds/YES - AUDIO FROM JAYUZUMI.COM.mp3'
+    audio.play()
   }
 
   function killYellowMode(){
@@ -1837,49 +1868,89 @@ function init(){
     addYellowPrey(yellowCurrentPosition)
     yellowPreyCurrentPosition = yellowCurrentPosition
     moveYellowPrey()
+    audio.src = 'Sounds/YES - AUDIO FROM JAYUZUMI.COM.mp3'
+    audio.play()
   }
 
 
   
   // Start game function
   function startGame(){
-    audio.src = 'Sounds/Evil Morty Theme (For the Damaged Coda) _ [1HOUR LOOP].mp3'
-    // audio.play()
-    // get rats to start moving
-    moveRedRat()
+    audio.src = "Sounds/I'M A PICKLE - AUDIO FROM JAYUZUMI.COM.mp3"
+    audio.play()
+    moveYellowRat()   
+    // moveRedRat()
     // moveBlueRat()
-    // moveYellowRat()   
+    pressStart.innerHTML = ''
   }
 
-  // check game result
-  function gameResult(){
-    if (livesSpan.innerHTML === 0){
-      window.alert('You died')
+  // check lives and if user loses
+  function checkLives(){
+    if (livesSpan.innerHTML === '0'){
+      audio.src = "Sounds/MAN I MISS HAVING HANDS - AUDIO FROM JAYUZUMI.COM.mp3"
+      audio.play()
+      window.alert('You Lost')
+      clearInterval(redInterval)
+      clearInterval(blueInterval)
+      clearInterval(yellowInterval)
+      document.location.reload()
+    }
+  } 
+  
+  // Check seeds and if user wins
+  function checkSeeds(){
+    if (seedsHeld >= 67){
+      audio.src = "Sounds/PICKLE RICK - AUDIO FROM JAYUZUMI.COM.mp3"
+      audio.play()
+      clearInterval(redInterval)
+      clearInterval(blueInterval)
+      clearInterval(yellowInterval)
+      winEndMessage()
+      
     }
   }
 
+  function closeStartMessage(){
+    overlayMessage.classList.remove('start-game')
+    message.innerHTML = ''
+    saveRickButton.remove()
+    themeSong.src = "Sounds/Human Music.mp3"
+    themeSong.play()
+    themeSong.loop = true
+  }
   
-  
+  function winEndMessage(){
+    overlayMessage.classList.add('win-game')
+    message.innerHTML = 'Wubba Lubba Dub Dub, thanks for saving my life, it didnt really matter'
+    setTimeout(() => {
+      document.location.reload()
+    }, 5000)
+    themeSong.stop()
+    themeSong.loop = false
+  }
+
+  function loseEndMessage(){
+
+  }
   
   createGrid(userStartingPosition)
   createHorizontalPath()
   createVerticalPath()
-  addRedRat(redCurrentPosition)
+  // addRedRat(redCurrentPosition)
   // addBlueRat(blueCurrentPosition)
   // addYellowRat(yellowCurrentPosition)
   
-  addSauce()
+  // addSauce()
   addSeed()
-  // moveRedRat()
-  // moveBlueRat()
-  // moveYellowRat()
+  
 
 
 
   // Events
-
-  document.addEventListener('keydown', userKeyMovement)
+  saveRickButton.addEventListener('click', closeStartMessage)
   start.addEventListener('click', startGame)
+  document.addEventListener('keydown', userKeyMovement)
+  
 
   
   
