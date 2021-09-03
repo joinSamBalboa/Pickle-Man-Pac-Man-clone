@@ -244,7 +244,6 @@ function init(){
   // User Key movement
   function userKeyMovement(event){
     checkSeeds()
-    changeHighScore()
     removePickle(userCurrentPosition)
 
     const key = event.keyCode 
