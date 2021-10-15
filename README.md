@@ -12,8 +12,8 @@
 
 <hr>
 
-### 📙 What is Pickle Man?
-> This is a Rick and Morty inspired Pac-Man clone using purely HTML, CSS, and Vanilla Javascript. User is able to control the main character, Pickle Man, who is tasked with collecting all of the mega seeds to escape the sewers he finds himself in, whilst avoiding the ghost-rats. The user is also able to use Szechuan sauces, placed in each corner of the game, to enable the ghost-rats be eliminated and get additional points.
+### ❓ What is Pickle Man?
+<p>This is a Rick and Morty inspired Pac-Man clone using purely HTML, CSS, and Vanilla Javascript. User is able to control the main character, Pickle Man, who is tasked with collecting all of the mega seeds to escape the sewers he finds himself in, whilst avoiding the ghost-rats. The user is also able to use Szechuan sauces, placed in each corner of the game, to enable the ghost-rats be eliminated and get additional points.</p>
 
 <hr>
 
@@ -60,7 +60,7 @@
 
 
 ### Difficulties
-<li>Refactoring the code to make it more readable, and DRY. Due to issues at the end, I wasn't able to do this and bugs were more likely to appear</li>
+<li>Refactoring the code to make it more readable, and DRY. Due to timing at the end, I wasn't able to do this and bugs were more likely to appear</li>
 <li>The ghost rat movement to be truly random and also move towards the user basen on his position</li>
 
 ### Wins
