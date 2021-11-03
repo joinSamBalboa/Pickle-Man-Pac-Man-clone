@@ -1798,6 +1798,7 @@ function init(){
       yellowPreyMovement()
     }, 1000)
 
+    // Rats become edible for 2 seconds 
     yellowPreyTimeout = setTimeout(()=> {
       clearInterval(yellowPreyInterval)
       removeYellowPrey(yellowPreyCurrentPosition)
