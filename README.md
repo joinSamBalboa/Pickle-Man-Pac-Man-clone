@@ -1,19 +1,18 @@
 <h1 align="center">Welcome to Pickle Man 🥒👨</h1>
 
-<p>
-  <img alt="Version" src="https://img.shields.io/badge/version-1.0-blue.svg?cacheSeconds=2592000" />
-</p>
+## Overview
+This was my first project on the Software Engineering Immersive course at General Assembly. It was a solo project.
 
 ## Timeframe
 <p>1 Week</p>
 
 ## Goal
-<p> To render a game in browser that's built on a grid. I had to design logic for winning & visually display which player won, and to also use Javascript for DOM manipulation</p>
+<p> To render a game in-browser that's built on a grid. I had to design logic for winning & visually display which player won, and to also use JavaScript for DOM manipulation</p>
 
 
 ## ❓ What is Pickle Man?
 
-<p>This is a Rick and Morty inspired Pac-Man clone using purely HTML, CSS, and Vanilla Javascript. User is able to control the main character, Pickle Man, who is tasked with collecting all of the mega seeds to escape the sewers he finds himself in, whilst avoiding the ghost-rats. The user is also able to use Szechuan sauces, placed in each corner of the game, to enable the ghost-rats be eliminated and get additional points.</p>
+<p>This is a Rick and Morty inspired Pac-Man clone using purely HTML, CSS, and Vanilla Javascript. The user is able to control the main character, Pickle Man, who is tasked with collecting all of the mega seeds to escape the sewers he finds himself in, whilst avoiding the ghost-rats. The user is also able to use Szechuan sauces, placed in each corner of the game, to enable the ghost-rats to be eliminated and get additional points.</p>
 
 
 ## ✨ [Demo](https://joinsambalboa.github.io/Pickle-Man-Pac-Man-clone/)
@@ -27,14 +26,14 @@
 
 <li>HTML5</li>
 <li>CSS3</li>
-<li>Javascript ES6</li>
+<li>JavaScript ES6</li>
 <li>Git</li>
-<li>Github</li>
-<li>Google Fonts</li>
-<li>Chrome Dev Tools</li>
+<li>GitHub</li>
 
 
 ## 🚀 Approach
+
+I started by white boarding my plans for the game, what parts would require what and how I would implement specific features; Including pseudocode for the elements required. I decided on focusing on creating the grid first, how many grids it would contain and where I would want the users and computer to start on the grid.
 
 <h4>Flex Grid</h4>
 <li>Created a 13 x 13 grid using flexbox.</li>
@@ -224,7 +223,7 @@
   }
 ```
 
-## Difficulties
+## Challenges
 
 <li>Refactoring the code to make it more readable, and DRY. Due to timing at the end, I wasn't able to do this and bugs were more likely to appear</li>
 <li>The ghost rat movement to be truly random and also move towards the user basen on his position</li>
@@ -234,6 +233,13 @@
 <li>Getting the ghost-rats to change for the set interval and change back in the right place</li>
 <li>I learnt alot from this project and will definitely provide learnings for future projects</li>
 <li>Creating a game from scratch using skills learnt in the last 3 weeks</li>
+
+## Key Learnings
+<li>Working on each section at a time and not necessarily having to think about the whole project helped me get through building the game.</li>
+<li>Reusable code would have saved me so much time but something I’ve definitely learnt for future projects</li>
+
+## Bugs
+One major bug that affects the ghost-rats when they're edible and if you eat too many szechuan sauces before they timeout. 
 
 ## Author
 
